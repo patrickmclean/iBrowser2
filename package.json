@@ -1,0 +1,6 @@
+{
+    "name": "iBrowser2",
+    "dependencies": {
+        "express-fileupload": "^1.2.0"
+    }
+}

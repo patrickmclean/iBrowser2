@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <link rel="shortcut icon" href="./favicon.png" />
+  <title>iBrowser</title>
+  
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+  crossorigin="anonymous">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp"
+  crossorigin="anonymous">
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+  crossorigin="anonymous"></script>
+
+  <link rel="stylesheet" href="css/styles.css">
+  <script src="./js/browser.js"></script>
+</head>
+
+<body>
+  <div class="content">
+  <div class="container-fluid">
+
+    <div class="jumbotron bgBanner">
+      <div class="row">
+          <h4 class="text-center txtWhite">File Upload</h2>
+      </div>
+    </div> 
+    
+    <form ref='uploadForm' 
+      class = 'text-center'
+      id='uploadForm' 
+      action='http://localhost:8081/upload'
+      method='post' 
+      encType="multipart/form-data">
+      <input type="file" 
+        multiple="" 
+        accept="image/jpeg,image/png,image/heif,image/heic,image/heif-sequence,image/heic-sequence" 
+        name="fileName"
+        class="centerElement-Button">
+      <input type='submit' value='Upload!' class="centerElement-Button"/>
+    </form>  
+    
+    <h4 class="text-center txtWhite">Images</h4>
+    <div class="row display-flex">
+        <div class="col-lg-4 col-md-6 col-sm-12 padBot" id='imageList'> <!-- make this col-sm-4 for 3 per row-->
+        </div>
+    </div>
+
+  </div>
+</div>
+
+
+</body>
+</html>
