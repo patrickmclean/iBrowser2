@@ -62,5 +62,9 @@ Set up a webpage for image file upload
 Set up a webpage for a gallery viewer
 
 
-# current issue - how to cascade back up the response from the scan command to the front end. Right now it's stuck in the 
-# callback for the scan command in ddb.
+# What's next
+Clean up the front end - decent display
+Create thumbnails and use these
+Include the file root in the package
+Allow for multiple directories
+Allow for launching a process on one or more files (art, remove people)

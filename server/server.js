@@ -29,8 +29,12 @@ app.post('/upload', function(req, res) {
    if (!req.files || Object.keys(req.files).length === 0) {
      return res.status(400).send('No files were uploaded.');
    }
-   rh.uploadFile(req.files);
-   res.send('File(s) uploaded!');
+   rh.uploadFile(req.files)
+   .then(response => {
+      console.log('server back up');
+      res.send('File(s) uploaded!'+response.Key);})
+   .catch(err => {console.log('err'+err)});
+   
  });
 
  // get image list

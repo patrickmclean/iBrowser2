@@ -33,6 +33,15 @@ p {
     background-color: grey;
     color: white;
 }
+/*
+.centerElement-Button:hover {
+    background-color: #cccccc;
+    border-color: #fff;
+    transition: all .1s ease-in-out;
+}*/
+.centerElement-Button:active{
+    background-color: rgb(236, 95, 95)
+}
 
 .smallButton {
     border-radius: 10px;
@@ -65,7 +74,27 @@ p {
 .row.display-flex > [class*='col-'] {
     flex-grow: 1;
 }
+
+
+.myContainer {
+    display: inline-grid;
+    grid-template-columns: 33% 33% 33%;
+    border: 5px #fff solid;  
+    padding: 0px;
+    width: 95%;
+    text-align: center
+  }
+
 .box {
-    border:1px #666 solid;
-    /* height: 50%; */
+    background-color: #bcc0c0;
+    border: 1px solid #fff;
+    padding: 5px;
+    font-size: 30px;
+    text-align: center;
+    height: 150px;
+    overflow: hidden
+  }
+
+@media (max-width:767px) {
+    .myContainer { grid-template-columns:50% 50%}
 }
