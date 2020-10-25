@@ -1,9 +1,7 @@
 // Manage all database access
 
-// Database fields: 
-// * imageID
-// * imageFileName
-// * imageFolder
+// AWS config update is called for every call
+// Likely not efficient, add some session state at some point
 
 const AWS = require('aws-sdk');
 const config = require('../config/config.js');
@@ -12,7 +10,7 @@ const logger = require('./logger.js');
 
 module.exports = {
   insert: function(item){
-    logger.write('aws ddb ', 'log: '+item.imageId,2);
+    logger.write('aws ddb ', 'log: '+item.filename,2);
 
     AWS.config.update(config.aws_remote_config);
 
@@ -33,6 +31,7 @@ module.exports = {
   },
   
   readAll: async function() {
+    logger.write('ddb','readAll',3);
     AWS.config.update(config.aws_remote_config);
     let docClient = new AWS.DynamoDB.DocumentClient();
     let params = {
@@ -50,9 +49,8 @@ module.exports = {
       params.ExclusiveStartKey = result.LastEvaluatedKey;
       data = data.concat(await dbRead(params));
     }
-    console.log('ReadAll: ');
     data.forEach(element => {
-      console.log(element);
+      logger.write('ddbreadAllresult',element,3);
     });
     return data;
     },

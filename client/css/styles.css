@@ -86,7 +86,7 @@ p {
   }
 
 .box {
-    background-color: #bcc0c0;
+    background-color: #d8dada;
     border: 1px solid #fff;
     padding: 5px;
     font-size: 30px;
@@ -94,6 +94,97 @@ p {
     height: 150px;
     overflow: hidden
   }
+
+.imageTab {
+    text-align: center;
+}
+
+button, input, select, textarea, optgroup {
+    font: inherit;
+    margin:0
+}
+
+optgroup {
+    font-weight: bold
+}
+
+button, input {
+    overflow:visible
+}
+
+button, select {
+    text-transform: none
+}
+
+button, [type=button], [type=reset], [type=submit] {
+    -webkit-appearance: button
+}
+
+button::-moz-focus-inner, [type=button]::-moz-focus-inner, [type=reset]::-moz-focus-inner, [type=submit]::-moz-focus-inner {
+    border-style: none;
+    padding: 0
+}
+
+button:-moz-focusring, [type=button]:-moz-focusring, [type=reset]:-moz-focusring, [type=submit]:-moz-focusring {
+    outline: 1px dotted ButtonText
+}
+
+.w3-btn, .w3-button {
+    border: none;
+    display: inline-block;
+    padding: 8px 16px;
+    vertical-align: middle;
+    overflow: hidden;
+    text-decoration: none;
+    color: inherit;
+    background-color: inherit;
+    text-align: center;
+    cursor: pointer;
+    white-space: nowrap
+}
+
+.w3-button:hover {
+    color: #000 !important;
+    background-color: #ccc !important
+}
+
+.w3-btn, .w3-button {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none
+}
+
+.w3-disabled, .w3-btn:disabled, .w3-button:disabled {
+    cursor: not-allowed;
+    opacity:0.3
+}
+
+.w3-disabled *, :disabled * {
+    pointer-events: none
+}
+
+.w3-btn.w3-disabled:hover, .w3-btn:disabled:hover {
+    box-shadow: none
+}
+.w3-border {
+    border: 1px solid #ccc !important
+}
+
+.w3-light-grey, .w3-hover-light-grey:hover, .w3-light-gray, .w3-hover-light-gray:hover {
+    color: #000 !important;
+    background-color: #f1f1f1 !important
+}
+
+.w3-dark-grey, .w3-hover-dark-grey:hover, .w3-dark-gray, .w3-hover-dark-gray:hover {
+    color: #fff !important;
+    background-color: #616161 !important
+}   
+
+
+
 
 @media (max-width:767px) {
     .myContainer { grid-template-columns:50% 50%}

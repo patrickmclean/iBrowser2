@@ -8,9 +8,9 @@ loadImages = function() {
   $.get("/loadimages")
   .done(function(string){
       let images = JSON.parse(string);
-      $('#imageList').empty();
+      $('#inputImageList').empty();
       $.each(images, function(i, p) {
-        paintBox('#imageList',p);
+        paintBox('#inputImageList',p);
       });
   })
 }
@@ -55,10 +55,20 @@ $(document).on("click", "#upload", function() {
     },
     complete: function (data){
       console.log('Ajax complete'+data);
-      loadImages();
+      // loadImages(); Need to change this - will load images after cascade of pubsub
     }
   });
 });
+
+// Move between tabs
+function openTab(tabName) {
+  var i;
+  var x = document.getElementsByClassName("imageTab");
+  for (i = 0; i < x.length; i++) {
+    x[i].style.display = "none"; 
+  }
+  document.getElementById(tabName).style.display = "block"; 
+}
 
 // The above waits a long time for s3 to come back synchronously
 // Should replace with an event listener https://javascript.info/server-sent-events

@@ -1,8 +1,10 @@
-var express = require('express');
-var app = express();
-var fileUpload = require('express-fileupload');
+const express = require('express');
+const app = express();
+const fileUpload = require('express-fileupload');
 
-var rh = require("./responsehandler");
+const rh = require("./responsehandler");
+const logger = require('./logger');
+
 
 // set location for js, css etc
 app.use(express.static('client'));
@@ -10,39 +12,26 @@ app.use(fileUpload());
 
 // host the index page
 app.get('/index.html', function (req, res) {
+   logger.write('get','called',2);
    res.sendFile( __dirname + "/" + "index.html" );
-})
-
-// process form return
-app.get('/process_get', function (req, res) {
-   rh.addToDb(req.query.image_name);
-   // Prepare output in JSON format
-   response = {
-      first_name:req.query.image_name,
-   };
-   console.log(response);
-   res.end(JSON.stringify(response));
 })
 
 // process file upload
 app.post('/upload', function(req, res) {
+   logger.write('upload','called',2);
    if (!req.files || Object.keys(req.files).length === 0) {
      return res.status(400).send('No files were uploaded.');
    }
    rh.uploadFile(req.files)
-   .then(response => {
-      console.log('server back up');
-      res.send('File(s) uploaded!'+response.Key);})
-   .catch(err => {console.log('err'+err)});
-   
+   // used to have a .then promise return, but this took too long. in process of replacing with cascading pub=/sub back up
  });
 
  // get image list
  app.get('/loadimages', function(req, res){
-   console.log('loadimages call received');
+   logger.write('loadimages','called',2);
    rh.loadImages()
    .then(result => {
-      console.log('load images came back');
+      logger.write('loadimages','returned',2);
       res.send(JSON.stringify(result));
    })
 })
@@ -52,4 +41,5 @@ var server = app.listen(8081, function () {
    var host = server.address().address
    var port = server.address().port
    console.log("Example app listening at http://%s:%s", host, port)
+   logger.write('app','launched',1);
 })

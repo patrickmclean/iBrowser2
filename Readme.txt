@@ -47,24 +47,12 @@ I can upload an image to either list
 I can process a deepart
 I can see a third list of the results
 
-# Steps
-Create a basic node web server that serves a static html page. Done.
-Create a basic add image page
-* Start with adding filename to database - Done
-* Then add upload of image to s3, and image info to database - Done
-Then add image browser 
-
-
-Set up a api server in node
-Set up a database in dynamodb - each row is an image file reference
-Set up an s3 bucket for the image files
-Set up a webpage for image file upload
-Set up a webpage for a gallery viewer
 
 
 # What's next
 Clean up the front end - decent display
-Create thumbnails and use these
+trigger refresh from pubsub return - have front end listening (was an ibm page somewhere..)
 Include the file root in the package
+Add error handling
 Allow for multiple directories
 Allow for launching a process on one or more files (art, remove people)

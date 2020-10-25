@@ -1,6 +1,12 @@
 // Image classes and functions
 
-uuid = require('uuid');
+const uuid = require('uuid');
+const exif = require('exif').ExifImage;
+const jimp = require('jimp');
+const ps = require('./pubsub');
+const { MIME_JPEG } = require('jimp');
+const { AUTO } = require('jimp');
+const logger = require('./logger');
 
 module.exports = {
 
@@ -13,11 +19,13 @@ imageClass: class {
             month: '',
             day: ''
         };
-        this.md5 = '';
-        this.filename = ''
-        this.folder = '';
+        this.md5;
+        this.filename;
+        this.folder;
         this.thumbnailSize = config.thumbnailSize;
-        this.version = 2; // change this any time the object definition changes
+        this.width;
+        this.height;
+        this.version = 3; // change this any time the object definition changes
     }
     addFileInfo(file, folder, rootDirectory) {
         this.filename = path.basename(file);
@@ -32,5 +40,39 @@ imageClass: class {
         this.date.minutes = birthtime.getUTCMinutes();
         this.date.seconds = birthtime.getUTCSeconds();
     }
+
+    getMetadata(fileData) {
+        let that = this;
+        exif({ image : fileData }, function (error, exifData) {
+            if (error)
+                logger.write('Exif Error',error.message,1);
+            else
+                that.width = exifData.exif.ExifImageWidth;
+                that.height = exifData.exif.ExifImageHeight;
+                logger.write('exif w+h ',that.width+" "+that.height,2); 
+            });
+    }
+
+    // Forgive the item, item2 thing below. Want to pass custom parameters into the callback and
+    // this was the only way I could figure out how to get it to work
+    createThumbnail(imageItem, fileData, boundBox){
+        logger.write('createThumb',imageItem.filename,2);
+        jimp.read(fileData)
+            .then((returnImage, item=imageItem) => {
+                logger.write('thumbFileRead',item.filename,2);
+                returnImage.resize(boundBox.width,boundBox.height).getBuffer(AUTO,(error, img, item2=item) =>{
+                    logger.write('thumbFileResize',item2.filename,2);
+                    ps.publish('thumbnails', {
+                        content: img,
+                        item: item2
+                    });
+                })
+            },imageItem)
+            .catch((err, item=imageItem) => {
+                // this is getting called even when the .then succeeds. don't know why, but appears harmless
+                logger.write('Jimp error ',err+" "+item.filename,1);
+            })
+    }
+    
 }
 }
