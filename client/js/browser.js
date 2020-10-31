@@ -16,14 +16,14 @@ loadImages = function() {
 }
 
 paintBox = function (root,p) {
-  s3root = "https://ibrowser-images.s3.us-east-2.amazonaws.com/" // this should be coming in the file upload object
+  s3root = "https://ibrowser-thumbnails.s3.us-east-2.amazonaws.com/tb_" // this should be coming in the file upload object
   boxDiv = document.createElement('div');
   $(boxDiv).attr({
     "class":"box"
   });
   imgElement = document.createElement('img');
   $(imgElement).attr({
-    "src":    s3root+p.filename,
+    "src":    s3root+p.imageID,
     "height": "100%",
     "alt":    p.filename ,
     "class":  "center-block",
@@ -70,28 +70,13 @@ function openTab(tabName) {
   document.getElementById(tabName).style.display = "block"; 
 }
 
-// The above waits a long time for s3 to come back synchronously
-// Should replace with an event listener https://javascript.info/server-sent-events
+// Event listener for server side events
+// Captures page refresh updates
+// Info on SSE: https://javascript.info/server-sent-events
+const sseSource = new EventSource('/serverstream');
 
-
-
-
-//'http://localhost:8081/upload' 
-
-/* this function might be a way to capture the input event
-function previewFile() {
-  var preview = document.querySelector('img');
-  var file    = document.querySelector('input[type=file]').files[0];
-  var reader  = new FileReader();
-
-  reader.onloadend = function () {
-    preview.src = reader.result;
-  }
-
-  if (file) {
-    reader.readAsDataURL(file);
-  } else {
-    preview.src = "";
-  }
-}
-*/
+sseSource.addEventListener('message', (e) => {
+    const messageData = e.data;
+    console.log(messageData);
+    loadImages();
+});

@@ -12,14 +12,14 @@ module.exports = {
     aws.config.update(config.aws_remote_config);
     const s3 = new aws.S3();
     logger.write('s3upload',uploadParams.Key,2);
-    s3.upload(uploadParams, function (err, data, file=uploadParams.Key){
+    s3.upload(uploadParams, function (err, data, uploadParams2=uploadParams){
         if (err) {
             throw(err)
         } else {
-            logger.write('s3upload','complete '+file,2);
+            logger.write('s3upload','complete '+uploadParams2.Key,2);
             ps.publish('s3uploads', {
                 content: data,
-                item: file
+                item: uploadParams2.Key
             })
         };
     })

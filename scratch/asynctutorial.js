@@ -42,6 +42,7 @@ console.log('Starting promise');
 let promiseReturn = promiseTimer()
     .then(promiseResolve => {console.log('Promise return: '+promiseResolve)}) // next action if it worked
     .catch(err => {console.log(err)}) // next action if it failed
+// do something else //
 
 console.log(promiseReturn); 
 // This will immediately return 'pending' because it's a promise that's returned

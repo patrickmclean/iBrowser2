@@ -25,6 +25,7 @@ imageClass: class {
         this.thumbnailSize = config.thumbnailSize;
         this.width;
         this.height;
+        this.orientation;
         this.version = 3; // change this any time the object definition changes
     }
     addFileInfo(file, folder, rootDirectory) {
@@ -49,6 +50,7 @@ imageClass: class {
             else
                 that.width = exifData.exif.ExifImageWidth;
                 that.height = exifData.exif.ExifImageHeight;
+                that.orientation = exifData.image.Orientation;
                 logger.write('exif w+h ',that.width+" "+that.height,2); 
             });
     }
@@ -60,7 +62,17 @@ imageClass: class {
         jimp.read(fileData)
             .then((returnImage, item=imageItem) => {
                 logger.write('thumbFileRead',item.filename,2);
-                returnImage.resize(boundBox.width,boundBox.height).getBuffer(AUTO,(error, img, item2=item) =>{
+                let tbImage = returnImage.scaleToFit(boundBox.width,boundBox.height);
+                // This is super annoying - Jimp screws up orientation on resize
+                switch(imageItem.orientation){
+                    case 6: 
+                        tbImage = tbImage.rotate(90);
+                        break;
+                    case 8: 
+                        tbImage = tbImage.rotate(-90);
+                        break;
+                }
+                tbImage.getBuffer(AUTO,(error, img, item2=item) =>{
                     logger.write('thumbFileResize',item2.filename,2);
                     ps.publish('thumbnails', {
                         content: img,

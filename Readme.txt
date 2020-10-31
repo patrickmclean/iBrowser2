@@ -50,9 +50,13 @@ I can see a third list of the results
 
 
 # What's next
+problem with thumbnail rotation - something about wrong interpretation of exif...
+refresh happens for every image in multi upload. do it for just one??
 Clean up the front end - decent display
 trigger refresh from pubsub return - have front end listening (was an ibm page somewhere..)
 Include the file root in the package
 Add error handling
 Allow for multiple directories
 Allow for launching a process on one or more files (art, remove people)
+
+ 

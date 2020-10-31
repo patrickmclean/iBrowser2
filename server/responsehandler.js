@@ -25,18 +25,19 @@ module.exports = {
         
         // Create db item and add to ddb
         let imageItem = new image.imageClass;
+        logger.write('process upload - file.imageID',file.name+' '+imageItem    .imageID,2);
         imageItem.filename = file.name;
         imageItem.addDate(new Date());
         imageItem.getMetadata(file.data);
         ddb.insert(imageItem);
 
         // Launch thumbnail creation (async)
-        imageItem.createThumbnail(imageItem,file.data,{width:256, height:256})
+        imageItem.createThumbnail(imageItem,file.data,{width:300, height:256})
 
         // Upload file to s3
         let uploadParams = {
             Bucket: config.s3_images_folder, 
-            Key: file.name, 
+            Key: imageItem.imageID, 
             Body: file.data, 
             ContentType: 'image/jpg',
             ACL: 'public-read'
@@ -51,15 +52,15 @@ module.exports = {
         return data;
     },
 
-    listener: ps.subscribe('s3uploads', function(obj) {
-        logger.write('Upload listener',obj.item,2);
-    }),
+    //listener: ps.subscribe('s3uploads', function(obj) {
+    //    logger.write('Upload listener',obj.item,2);
+    //}),
 
     listener2: ps.subscribe('thumbnails', function(obj){
         logger.write('Thumbnail listener',obj.item.filename,2);
         let uploadParams = {
             Bucket: config.s3_thumbnail_folder, 
-            Key: 'tb_'+obj.item.filename, 
+            Key: 'tb_'+obj.item.imageID, 
             Body: obj.content, 
             ContentType: 'image/jpg',
             ACL: 'public-read'

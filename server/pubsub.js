@@ -1,3 +1,7 @@
+// Basic pub sub implementation
+
+const logger = require("./logger");
+
 // this is an IIFE if you're confused about the syntax...
 
 module.exports = (function(){
@@ -9,6 +13,7 @@ module.exports = (function(){
           // Create the topic's object if not yet created
           if(!hOP.call(topics, topic)) topics[topic] = [];
     
+          logger.write('add listener',topic,3);
           // Add the listener to queue
           var index = topics[topic].push(listener) -1;
     
@@ -20,11 +25,13 @@ module.exports = (function(){
           };
         },
         publish: function(topic, info) {
+          logger.write('pub',topic+" "+info,3);
           // If the topic doesn't exist, or there's no listeners in queue, just leave
           if(!hOP.call(topics, topic)) return;
     
           // Cycle through topics queue, fire!
           topics[topic].forEach(function(item) {
+            logger.write('sub',item,3);
               item(info != undefined ? info : {});
           });
         }

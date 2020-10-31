@@ -4,6 +4,7 @@ const fileUpload = require('express-fileupload');
 
 const rh = require("./responsehandler");
 const logger = require('./logger');
+const ps = require('./pubsub');
 
 
 // set location for js, css etc
@@ -22,9 +23,9 @@ app.post('/upload', function(req, res) {
    if (!req.files || Object.keys(req.files).length === 0) {
      return res.status(400).send('No files were uploaded.');
    }
-   rh.uploadFile(req.files)
-   // used to have a .then promise return, but this took too long. in process of replacing with cascading pub=/sub back up
- });
+   rh.uploadFile(req.files);
+   res.sendStatus(200);
+});
 
  // get image list
  app.get('/loadimages', function(req, res){
@@ -35,6 +36,30 @@ app.post('/upload', function(req, res) {
       res.send(JSON.stringify(result));
    })
 })
+
+// Prep server side event stream for sending async refresh updates
+app.get('/serverstream', (req, res) => {
+   logger.write('serverstream','launch',2);
+   res.setHeader('Cache-Control', 'no-cache');
+   res.setHeader('Content-Type', 'text/event-stream');
+   res.setHeader("Access-Control-Allow-Origin", "*");
+   res.flushHeaders(); // flush the headers to establish SSE with client
+
+   let sub = ps.subscribe('s3uploads', function(obj) {
+      logger.write('serverstream listener',obj.item,2);
+      if(obj.item.includes("tb")) {
+         res.write(`data: refresh ${obj.item}\n\n`); 
+      }
+   });
+   
+   // If client closes connection, stop sending events
+   res.on('close', () => {
+       logger.write('serverstream','client dropped connection',2);
+       sub.remove();
+       res.end();
+   });
+});
+
 
 // The server itself
 var server = app.listen(8081, function () {
