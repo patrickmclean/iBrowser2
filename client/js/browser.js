@@ -1,6 +1,22 @@
 // Function gets called once page load has succeeded
 $(document).ready(function() {
-    loadImages();
+    // Load images on first open
+    loadImages(); 
+
+    // Set the modal closing behavior - either through X or clicking outside
+    // clean up the clean up by putting a proper div in for the content
+    document.getElementsByClassName("close")[0].onclick = function() {
+      document.getElementById("modalBrowser").style.display = "none";
+      document.getElementById("modal-content").removeChild(document.getElementById("modal-content").firstElementChild);
+    }
+    window.onclick = function(event) {
+      if (event.target == document.getElementById("modalBrowser")) {
+        document.getElementById("modalBrowser").style.display = "none";
+        document.getElementById("modal-content").removeChild(document.getElementById("modal-content").firstElementChild);
+      }
+    }
+    // Modal opening is set in paintBox below
+
 })
 
 // Load list of stored images
@@ -15,20 +31,42 @@ loadImages = function() {
   })
 }
 
+// the box is the element that includes the thumbnail
 paintBox = function (root,p) {
-  s3root = "https://ibrowser-thumbnails.s3.us-east-2.amazonaws.com/tb_" // this should be coming in the file upload object
+  s3tbroot = "https://ibrowser-thumbnails.s3.us-east-2.amazonaws.com/tb_" // this should be coming in the file upload object
+  s3root = "https://ibrowser-images.s3.us-east-2.amazonaws.com/gl_" // this should be coming in the file upload object
   boxDiv = document.createElement('div');
+  // Thumbnail box
   $(boxDiv).attr({
-    "class":"box"
+    "class":"box",
+    "id": "id-"+p.imageID
   });
   imgElement = document.createElement('img');
   $(imgElement).attr({
-    "src":    s3root+p.imageID,
+    "src":    s3tbroot+p.imageID,
     "height": "100%",
     "alt":    p.filename ,
     "class":  "center-block",
-    "max-width": "95%"
-    });
+    "max-width": "95%",
+  });
+  // Full screen modal box
+  $(imgElement).click(function(){
+    let imgElementFull = document.createElement('img');
+    $(imgElementFull).attr({
+      "src":    s3root+p.imageID,
+      "height": "400px",
+      "alt":    p.filename ,
+      "class":  "center-block",
+      "max-width": "95%",
+    })
+    let rootBrowser = document.getElementById("modalBrowser");
+    rootBrowser.style.display = "block";
+    let contentBrowser = document.getElementById("modal-content");
+    contentBrowser.append(imgElementFull);
+    let textElement = document.createElement('div');
+    textElement.innerHTML = p.filename;
+    contentBrowser.firstElementChild.append(textElement)
+  });
   $(boxDiv).append(imgElement);
   $(root).append(boxDiv); 
 }
@@ -80,3 +118,4 @@ sseSource.addEventListener('message', (e) => {
     console.log(messageData);
     loadImages();
 });
+

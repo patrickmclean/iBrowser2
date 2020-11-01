@@ -11,7 +11,7 @@ module.exports = {
   uploadToS3: function(uploadParams) {
     aws.config.update(config.aws_remote_config);
     const s3 = new aws.S3();
-    logger.write('s3upload',uploadParams.Key,2);
+    logger.write('s3upload',uploadParams.Key +" to "+uploadParams.Bucket,2);
     s3.upload(uploadParams, function (err, data, uploadParams2=uploadParams){
         if (err) {
             throw(err)

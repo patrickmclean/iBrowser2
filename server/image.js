@@ -23,6 +23,7 @@ imageClass: class {
         this.filename;
         this.folder;
         this.thumbnailSize = config.thumbnailSize;
+        this.gallerySize = config.gallerySize;
         this.width;
         this.height;
         this.orientation;
@@ -31,6 +32,9 @@ imageClass: class {
     addFileInfo(file, folder, rootDirectory) {
         this.filename = path.basename(file);
         this.folder = folder.replace(rootDirectory, '');
+        this.s3thumbnailUrl = config.s3_thumbnail_url;
+        this.s3galleryUrl = config.s3_gallery_url;
+        this.s3originalsUrl = config.s3_originals_url;
     }
     addDate(birthtime) {
         this.date.utc = birthtime;
@@ -57,13 +61,14 @@ imageClass: class {
 
     // Forgive the item, item2 thing below. Want to pass custom parameters into the callback and
     // this was the only way I could figure out how to get it to work
-    createThumbnail(imageItem, fileData, boundBox){
-        logger.write('createThumb',imageItem.filename,2);
+    createReducedImage(imageItem, fileData, boundBox, type){
+        logger.write('reduce image '+type,imageItem.filename,2);
         jimp.read(fileData)
             .then((returnImage, item=imageItem) => {
                 logger.write('thumbFileRead',item.filename,2);
                 let tbImage = returnImage.scaleToFit(boundBox.width,boundBox.height);
                 // This is super annoying - Jimp screws up orientation on resize
+                // The two main sideways orientations are 6 and 8, 1 is upright, 3 is upside down
                 switch(imageItem.orientation){
                     case 6: 
                         tbImage = tbImage.rotate(90);
@@ -73,8 +78,8 @@ imageClass: class {
                         break;
                 }
                 tbImage.getBuffer(AUTO,(error, img, item2=item) =>{
-                    logger.write('thumbFileResize',item2.filename,2);
-                    ps.publish('thumbnails', {
+                    logger.write(type+' Resize',item2.filename,2);
+                    ps.publish(type, {
                         content: img,
                         item: item2
                     });

@@ -32,11 +32,14 @@ module.exports = {
         ddb.insert(imageItem);
 
         // Launch thumbnail creation (async)
-        imageItem.createThumbnail(imageItem,file.data,{width:300, height:256})
+        imageItem.createReducedImage(imageItem,file.data,{width:imageItem.thumbnailSize, height:imageItem.thumbnailSize},'thumbnails');
+
+        // Launch midsize image creation (async)
+        imageItem.createReducedImage(imageItem,file.data,{width:imageItem.gallerySize, height:imageItem.gallerySize},'gallery');
 
         // Upload file to s3
         let uploadParams = {
-            Bucket: config.s3_images_folder, 
+            Bucket: config.s3_originals_folder, 
             Key: imageItem.imageID, 
             Body: file.data, 
             ContentType: 'image/jpg',
@@ -52,11 +55,9 @@ module.exports = {
         return data;
     },
 
-    //listener: ps.subscribe('s3uploads', function(obj) {
-    //    logger.write('Upload listener',obj.item,2);
-    //}),
+    
 
-    listener2: ps.subscribe('thumbnails', function(obj){
+    tb_listener: ps.subscribe('thumbnails', function(obj){
         logger.write('Thumbnail listener',obj.item.filename,2);
         let uploadParams = {
             Bucket: config.s3_thumbnail_folder, 
@@ -67,6 +68,19 @@ module.exports = {
         };
         logger.write('calling s3upl', uploadParams.Key,2);
         awss3.uploadToS3(uploadParams); 
-    })
+    }),
+
+    gallery_listener: ps.subscribe('gallery', function(obj){
+        logger.write('Gallery listener',obj.item.filename,2);
+        let uploadParams = {
+            Bucket: config.s3_gallery_folder, 
+            Key: 'gl_'+obj.item.imageID, 
+            Body: obj.content, 
+            ContentType: 'image/jpg',
+            ACL: 'public-read'
+        };
+        logger.write('calling s3upl', uploadParams.Key,2);
+        awss3.uploadToS3(uploadParams); 
+    }),
 
 }
