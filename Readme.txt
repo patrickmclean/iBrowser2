@@ -53,7 +53,6 @@ I can see a third list of the results
 
 
 # What's next
-Full screen browser
 Launch deepart, including launching and stopping the server
 
 refresh happens for every image in multi upload. do it for just one??

@@ -4,7 +4,7 @@ config = require('../config/config');
 module.exports = {
     create: function () {
         if (config.log_to_file == false) return;
-        this.filename = config.logfile_directory+'/.logs/ibrowser_'+Date().toString().slice(0,24).replace(/ |:/g,"_")+'.log';
+        this.filename = config.logfile_directory+'/ibrowser_'+Date().toString().slice(0,24).replace(/ |:/g,"_")+'.log';
         try {
             fs.writeFileSync(this.filename,"#iBrowser Log Starting -"+Date().toString().slice(0,24)+"\n");
         } catch(err) {
