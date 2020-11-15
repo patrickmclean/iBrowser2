@@ -79,9 +79,10 @@ imageClass: class {
                 }
                 tbImage.getBuffer(AUTO,(error, img, item2=item) =>{
                     logger.write(type+' Resize',item2.filename,2);
-                    ps.publish(type, {
+                    ps.publish('resizer', {
                         content: img,
-                        item: item2
+                        item: item2,
+                        type: type
                     });
                 })
             },imageItem)

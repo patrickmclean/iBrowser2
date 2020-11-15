@@ -57,24 +57,21 @@ module.exports = {
 
     
 
-    tb_listener: ps.subscribe('thumbnails', function(obj){
-        logger.write('Thumbnail listener',obj.item.filename,2);
+    listener: ps.subscribe('resizer', function(obj){
+        logger.write('Resize listener '+obj.type,obj.item.filename,2);
+        switch(obj.type){
+            case 'thumbnails': 
+                bucket = config.s3_thumbnail_folder;
+                keyPrefix = 'tb_';
+                break;
+            case 'gallery':
+                bucket = config.s3_gallery_folder;
+                keyPrefix = 'gl_';
+                break;
+        }
         let uploadParams = {
-            Bucket: config.s3_thumbnail_folder, 
-            Key: 'tb_'+obj.item.imageID, 
-            Body: obj.content, 
-            ContentType: 'image/jpg',
-            ACL: 'public-read'
-        };
-        logger.write('calling s3upl', uploadParams.Key,2);
-        awss3.uploadToS3(uploadParams); 
-    }),
-
-    gallery_listener: ps.subscribe('gallery', function(obj){
-        logger.write('Gallery listener',obj.item.filename,2);
-        let uploadParams = {
-            Bucket: config.s3_gallery_folder, 
-            Key: 'gl_'+obj.item.imageID, 
+            Bucket: bucket, 
+            Key: keyPrefix+obj.item.imageID, 
             Body: obj.content, 
             ContentType: 'image/jpg',
             ACL: 'public-read'

@@ -58,6 +58,13 @@ app.get('/serverstream', (req, res) => {
        sub.remove();
        res.end();
    });
+
+    // Random - this is hosting christine's key server, just for convenience
+   app.get('/getkey', function(req, res){
+   logger.write('getkey','called',2);
+   res.send('ThisIsAKey');
+   })
+   
 });
 
 
