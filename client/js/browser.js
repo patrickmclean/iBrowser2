@@ -91,7 +91,7 @@ $(document).on("click", "#upload", function() {
   }
   
   $.ajax({
-    url: "http://localhost:8081/upload", 
+    url: "/upload", 
     dataType: 'script',
     cache: false,
     contentType: false,
