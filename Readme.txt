@@ -17,6 +17,9 @@ mv config ..
 git pull
 mv ../config .
 
+# If git is being a pain in the xx then just rm -rf * and do a fresh pull:
+# git clone https://github.com/patrickmclean/iBrowser2.git
+
 # If config is changed, use filezilla sftp to upload config file
 # Don't ever publish the AWS credentials on github!
 

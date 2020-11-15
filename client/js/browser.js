@@ -21,25 +21,29 @@ $(document).ready(function() {
 
 // Load list of stored images
 loadImages = function() {
+  let s = 0; // seqNum
   $.get("/loadimages")
   .done(function(string){
       let images = JSON.parse(string);
       $('#inputImageList').empty();
       $.each(images, function(i, p) {
-        paintBox('#inputImageList',p);
+        paintBox('#inputImageList',p,s++);
       });
+      // save to local storage
+      localStorage.setItem('imageArray', string);
+      localStorage.setItem('seqNum',"0");
+      localStorage.setItem('maxImages',String(s-1));
   })
 }
 
 // the box is the element that includes the thumbnail
-paintBox = function (root,p) {
+paintBox = function (root,p,s) {
   s3tbroot = "https://ibrowser-thumbnails.s3.us-east-2.amazonaws.com/tb_" // this should be coming in the file upload object
-  s3root = "https://ibrowser-images.s3.us-east-2.amazonaws.com/gl_" // this should be coming in the file upload object
   boxDiv = document.createElement('div');
   // Thumbnail box
   $(boxDiv).attr({
     "class":"box",
-    "id": "id-"+p.imageID
+    "id": "id-"+p.imageID,
   });
   imgElement = document.createElement('img');
   $(imgElement).attr({
@@ -50,25 +54,32 @@ paintBox = function (root,p) {
     "max-width": "95%",
   });
   // Full screen modal box
-  $(imgElement).click(function(){
-    let imgElementFull = document.createElement('img');
-    $(imgElementFull).attr({
-      "src":    s3root+p.imageID,
-      "height": "400px",
-      "alt":    p.filename ,
-      "class":  "center-block",
-      "max-width": "95%",
-    })
-    let rootBrowser = document.getElementById("modalBrowser");
-    rootBrowser.style.display = "block";
-    let contentBrowser = document.getElementById("modal-content");
-    contentBrowser.append(imgElementFull);
-    let textElement = document.createElement('div');
-    textElement.innerHTML = p.filename;
-    contentBrowser.firstElementChild.append(textElement)
+  $(imgElement).click(function() {
+    localStorage.setItem('seqNum',s);
+    paintFullScreen(p)
   });
   $(boxDiv).append(imgElement);
   $(root).append(boxDiv); 
+}
+
+// Paint Full Screen Element
+paintFullScreen = function(p){
+  s3root = "https://ibrowser-images.s3.us-east-2.amazonaws.com/gl_" // this should be coming in the file upload object
+  let imgElementFull = document.createElement('img');
+  $(imgElementFull).attr({
+    "src":    s3root+p.imageID,
+    "height": "400px",
+    "alt":    p.filename ,
+    "class":  "center-block",
+    "max-width": "95%",
+  })
+  let rootBrowser = document.getElementById("modalBrowser");
+  rootBrowser.style.display = "block";
+  let contentBrowser = document.getElementById("modal-content");
+  contentBrowser.append(imgElementFull);
+  let textElement = document.createElement('div');
+  textElement.innerHTML = p.filename;
+  contentBrowser.firstElementChild.append(textElement)
 }
 
 // Process file upload
@@ -106,6 +117,28 @@ function openTab(tabName) {
     x[i].style.display = "none"; 
   }
   document.getElementById(tabName).style.display = "block"; 
+}
+
+// Move between images fullscreen
+function lastImage(){
+  let imageNum = Number(localStorage.getItem('seqNum'))-1;
+  if (imageNum < 0) {imageNum = 0}; 
+  let images = JSON.parse(localStorage.getItem('imageArray'));
+  let md = document.getElementById('modal-content');
+  md.removeChild(md.firstElementChild);
+  paintFullScreen(images[imageNum]);
+  localStorage.setItem('seqNum',String(imageNum));
+}
+
+function nextImage(){
+  let imageNum = Number(localStorage.getItem('seqNum'))+1;
+  let maxImages = Number(localStorage.getItem('maxImages'));
+  if (imageNum > maxImages) {imageNum = maxImages}; 
+  let images = JSON.parse(localStorage.getItem('imageArray'));
+  let md = document.getElementById('modal-content');
+  md.removeChild(md.firstElementChild);
+  paintFullScreen(images[imageNum]);
+  localStorage.setItem('seqNum',String(imageNum));
 }
 
 // Event listener for server side events
