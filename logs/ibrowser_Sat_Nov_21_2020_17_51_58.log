@@ -1,9 +1,0 @@
-#iBrowser Log Starting -Sat Nov 21 2020 17:51:58
-Sat Nov 21 2020 17:52:00; app; launched
-Sat Nov 21 2020 17:52:05; loadimages; called
-Sat Nov 21 2020 17:52:05; loadImage; enter
-Sat Nov 21 2020 17:52:05; serverstream; launch
-Sat Nov 21 2020 17:52:06; load images; data back
-Sat Nov 21 2020 17:52:06; loadimages; returned
-Sat Nov 21 2020 17:54:05; serverstream; client dropped connection
-Sat Nov 21 2020 17:54:05; serverstream; launch
