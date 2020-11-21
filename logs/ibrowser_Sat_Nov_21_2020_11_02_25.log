@@ -1,0 +1,189 @@
+#iBrowser Log Starting -Sat Nov 21 2020 11:02:25
+Sat Nov 21 2020 11:02:30; app; launched
+Sat Nov 21 2020 11:02:40; serverstream; launch
+Sat Nov 21 2020 11:02:40; loadimages; called
+Sat Nov 21 2020 11:02:40; loadImage; enter
+Sat Nov 21 2020 11:02:41; load images; data back
+Sat Nov 21 2020 11:02:41; loadimages; returned
+Sat Nov 21 2020 11:04:40; serverstream; client dropped connection
+Sat Nov 21 2020 11:04:40; serverstream; launch
+Sat Nov 21 2020 11:06:40; serverstream; client dropped connection
+Sat Nov 21 2020 11:06:40; serverstream; launch
+Sat Nov 21 2020 11:08:40; serverstream; client dropped connection
+Sat Nov 21 2020 11:08:40; serverstream; launch
+Sat Nov 21 2020 11:10:40; serverstream; client dropped connection
+Sat Nov 21 2020 11:10:43; serverstream; launch
+Sat Nov 21 2020 11:12:43; serverstream; client dropped connection
+Sat Nov 21 2020 11:12:43; serverstream; launch
+Sat Nov 21 2020 11:14:43; serverstream; client dropped connection
+Sat Nov 21 2020 11:14:43; serverstream; launch
+Sat Nov 21 2020 11:16:43; serverstream; client dropped connection
+Sat Nov 21 2020 11:16:46; serverstream; launch
+Sat Nov 21 2020 11:18:33; serverstream; client dropped connection
+Sat Nov 21 2020 11:18:33; serverstream; launch
+Sat Nov 21 2020 11:18:33; loadimages; called
+Sat Nov 21 2020 11:18:33; loadImage; enter
+Sat Nov 21 2020 11:18:34; load images; data back
+Sat Nov 21 2020 11:18:34; loadimages; returned
+Sat Nov 21 2020 11:20:33; serverstream; client dropped connection
+Sat Nov 21 2020 11:20:33; serverstream; launch
+Sat Nov 21 2020 11:22:33; serverstream; client dropped connection
+Sat Nov 21 2020 11:22:33; serverstream; launch
+Sat Nov 21 2020 11:23:51; serverstream; client dropped connection
+Sat Nov 21 2020 11:23:51; serverstream; launch
+Sat Nov 21 2020 11:23:51; loadimages; called
+Sat Nov 21 2020 11:23:51; loadImage; enter
+Sat Nov 21 2020 11:23:51; load images; data back
+Sat Nov 21 2020 11:23:51; loadimages; returned
+Sat Nov 21 2020 11:25:51; serverstream; client dropped connection
+Sat Nov 21 2020 11:25:51; serverstream; launch
+Sat Nov 21 2020 11:26:17; serverstream; client dropped connection
+Sat Nov 21 2020 11:26:18; serverstream; launch
+Sat Nov 21 2020 11:26:18; loadimages; called
+Sat Nov 21 2020 11:26:18; loadImage; enter
+Sat Nov 21 2020 11:26:18; load images; data back
+Sat Nov 21 2020 11:26:18; loadimages; returned
+Sat Nov 21 2020 11:27:38; serverstream; client dropped connection
+Sat Nov 21 2020 11:27:38; serverstream; launch
+Sat Nov 21 2020 11:27:38; loadimages; called
+Sat Nov 21 2020 11:27:38; loadImage; enter
+Sat Nov 21 2020 11:27:39; load images; data back
+Sat Nov 21 2020 11:27:39; loadimages; returned
+Sat Nov 21 2020 11:29:38; serverstream; client dropped connection
+Sat Nov 21 2020 11:29:38; serverstream; launch
+Sat Nov 21 2020 13:31:06; serverstream; client dropped connection
+Sat Nov 21 2020 13:31:07; serverstream; launch
+Sat Nov 21 2020 13:37:37; serverstream; client dropped connection
+Sat Nov 21 2020 13:37:37; serverstream; launch
+Sat Nov 21 2020 13:39:37; serverstream; client dropped connection
+Sat Nov 21 2020 13:39:40; serverstream; launch
+Sat Nov 21 2020 13:40:14; serverstream; client dropped connection
+Sat Nov 21 2020 13:40:14; serverstream; launch
+Sat Nov 21 2020 13:40:14; loadimages; called
+Sat Nov 21 2020 13:40:14; loadImage; enter
+Sat Nov 21 2020 13:40:15; load images; data back
+Sat Nov 21 2020 13:40:15; loadimages; returned
+Sat Nov 21 2020 13:42:14; serverstream; client dropped connection
+Sat Nov 21 2020 13:42:14; serverstream; launch
+Sat Nov 21 2020 13:44:09; serverstream; client dropped connection
+Sat Nov 21 2020 13:44:09; serverstream; launch
+Sat Nov 21 2020 13:44:09; loadimages; called
+Sat Nov 21 2020 13:44:09; loadImage; enter
+Sat Nov 21 2020 13:44:10; load images; data back
+Sat Nov 21 2020 13:44:10; loadimages; returned
+Sat Nov 21 2020 13:45:27; serverstream; client dropped connection
+Sat Nov 21 2020 13:45:27; serverstream; launch
+Sat Nov 21 2020 13:45:27; loadimages; called
+Sat Nov 21 2020 13:45:27; loadImage; enter
+Sat Nov 21 2020 13:45:27; load images; data back
+Sat Nov 21 2020 13:45:27; loadimages; returned
+Sat Nov 21 2020 13:46:30; serverstream; client dropped connection
+Sat Nov 21 2020 13:46:30; serverstream; launch
+Sat Nov 21 2020 13:46:30; loadimages; called
+Sat Nov 21 2020 13:46:30; loadImage; enter
+Sat Nov 21 2020 13:46:30; load images; data back
+Sat Nov 21 2020 13:46:30; loadimages; returned
+Sat Nov 21 2020 13:46:35; serverstream; client dropped connection
+Sat Nov 21 2020 13:46:35; serverstream; launch
+Sat Nov 21 2020 13:46:35; loadimages; called
+Sat Nov 21 2020 13:46:35; loadImage; enter
+Sat Nov 21 2020 13:46:35; load images; data back
+Sat Nov 21 2020 13:46:35; loadimages; returned
+Sat Nov 21 2020 13:48:35; serverstream; client dropped connection
+Sat Nov 21 2020 13:48:35; serverstream; launch
+Sat Nov 21 2020 13:50:35; serverstream; client dropped connection
+Sat Nov 21 2020 13:50:35; serverstream; launch
+Sat Nov 21 2020 13:51:16; serverstream; client dropped connection
+Sat Nov 21 2020 13:51:17; serverstream; launch
+Sat Nov 21 2020 13:51:17; loadimages; called
+Sat Nov 21 2020 13:51:17; loadImage; enter
+Sat Nov 21 2020 13:51:17; load images; data back
+Sat Nov 21 2020 13:51:17; loadimages; returned
+Sat Nov 21 2020 13:53:17; serverstream; client dropped connection
+Sat Nov 21 2020 13:53:17; serverstream; launch
+Sat Nov 21 2020 13:53:46; serverstream; client dropped connection
+Sat Nov 21 2020 13:53:46; serverstream; launch
+Sat Nov 21 2020 13:53:47; loadimages; called
+Sat Nov 21 2020 13:53:47; loadImage; enter
+Sat Nov 21 2020 13:53:48; load images; data back
+Sat Nov 21 2020 13:53:48; loadimages; returned
+Sat Nov 21 2020 13:55:46; serverstream; client dropped connection
+Sat Nov 21 2020 13:55:46; serverstream; launch
+Sat Nov 21 2020 13:56:04; serverstream; client dropped connection
+Sat Nov 21 2020 13:56:04; serverstream; launch
+Sat Nov 21 2020 13:56:04; loadimages; called
+Sat Nov 21 2020 13:56:04; loadImage; enter
+Sat Nov 21 2020 13:56:05; load images; data back
+Sat Nov 21 2020 13:56:05; loadimages; returned
+Sat Nov 21 2020 13:56:14; serverstream; client dropped connection
+Sat Nov 21 2020 13:56:15; loadimages; called
+Sat Nov 21 2020 13:56:15; loadImage; enter
+Sat Nov 21 2020 13:56:15; serverstream; launch
+Sat Nov 21 2020 13:56:15; load images; data back
+Sat Nov 21 2020 13:56:15; loadimages; returned
+Sat Nov 21 2020 13:58:15; serverstream; client dropped connection
+Sat Nov 21 2020 13:58:15; serverstream; launch
+Sat Nov 21 2020 13:59:51; loadimages; called
+Sat Nov 21 2020 13:59:51; loadImage; enter
+Sat Nov 21 2020 13:59:51; serverstream; launch
+Sat Nov 21 2020 13:59:52; load images; data back
+Sat Nov 21 2020 13:59:52; loadimages; returned
+Sat Nov 21 2020 14:00:15; serverstream; client dropped connection
+Sat Nov 21 2020 14:00:15; serverstream; launch
+Sat Nov 21 2020 14:01:51; serverstream; client dropped connection
+Sat Nov 21 2020 14:01:54; serverstream; launch
+Sat Nov 21 2020 14:02:15; serverstream; client dropped connection
+Sat Nov 21 2020 14:02:15; serverstream; launch
+Sat Nov 21 2020 14:03:54; serverstream; client dropped connection
+Sat Nov 21 2020 14:03:57; serverstream; launch
+Sat Nov 21 2020 14:04:15; serverstream; client dropped connection
+Sat Nov 21 2020 14:04:21; serverstream; launch
+Sat Nov 21 2020 14:05:57; serverstream; client dropped connection
+Sat Nov 21 2020 14:06:00; serverstream; launch
+Sat Nov 21 2020 14:06:21; serverstream; client dropped connection
+Sat Nov 21 2020 14:06:21; serverstream; launch
+Sat Nov 21 2020 14:08:00; serverstream; client dropped connection
+Sat Nov 21 2020 14:08:04; serverstream; launch
+Sat Nov 21 2020 14:08:21; serverstream; client dropped connection
+Sat Nov 21 2020 14:08:21; serverstream; launch
+Sat Nov 21 2020 14:09:29; serverstream; client dropped connection
+Sat Nov 21 2020 14:09:53; serverstream; launch
+Sat Nov 21 2020 14:09:53; loadimages; called
+Sat Nov 21 2020 14:09:53; loadImage; enter
+Sat Nov 21 2020 14:09:54; load images; data back
+Sat Nov 21 2020 14:09:54; loadimages; returned
+Sat Nov 21 2020 14:10:21; serverstream; client dropped connection
+Sat Nov 21 2020 14:10:28; serverstream; launch
+Sat Nov 21 2020 14:11:53; serverstream; client dropped connection
+Sat Nov 21 2020 14:11:56; serverstream; launch
+Sat Nov 21 2020 14:12:28; serverstream; client dropped connection
+Sat Nov 21 2020 14:12:28; serverstream; launch
+Sat Nov 21 2020 14:13:56; serverstream; client dropped connection
+Sat Nov 21 2020 14:13:59; serverstream; launch
+Sat Nov 21 2020 14:14:28; serverstream; client dropped connection
+Sat Nov 21 2020 14:14:28; serverstream; launch
+Sat Nov 21 2020 14:15:12; serverstream; client dropped connection
+Sat Nov 21 2020 14:15:12; serverstream; launch
+Sat Nov 21 2020 14:15:13; loadimages; called
+Sat Nov 21 2020 14:15:13; loadImage; enter
+Sat Nov 21 2020 14:15:13; load images; data back
+Sat Nov 21 2020 14:15:13; loadimages; returned
+Sat Nov 21 2020 14:15:59; serverstream; client dropped connection
+Sat Nov 21 2020 14:16:02; serverstream; launch
+Sat Nov 21 2020 14:17:12; serverstream; client dropped connection
+Sat Nov 21 2020 14:17:12; serverstream; launch
+Sat Nov 21 2020 14:18:02; serverstream; client dropped connection
+Sat Nov 21 2020 14:18:05; serverstream; launch
+Sat Nov 21 2020 14:19:12; serverstream; client dropped connection
+Sat Nov 21 2020 14:19:12; serverstream; launch
+Sat Nov 21 2020 14:19:30; serverstream; client dropped connection
+Sat Nov 21 2020 14:19:44; serverstream; launch
+Sat Nov 21 2020 14:19:44; loadimages; called
+Sat Nov 21 2020 14:19:44; loadImage; enter
+Sat Nov 21 2020 14:19:45; load images; data back
+Sat Nov 21 2020 14:19:45; loadimages; returned
+Sat Nov 21 2020 14:21:12; serverstream; client dropped connection
+Sat Nov 21 2020 14:21:12; serverstream; launch
+Sat Nov 21 2020 14:21:20; serverstream; client dropped connection
+Sat Nov 21 2020 14:21:44; serverstream; client dropped connection
+Sat Nov 21 2020 14:21:47; serverstream; launch

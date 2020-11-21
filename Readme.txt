@@ -53,12 +53,23 @@ I can see a third list of the results
 
 
 # What's next
+Add a delete button
+Add a select button
+Add tagging, so the uploads to different tabs have different tags (could be directory but probably not)
 Launch deepart, including launching and stopping the server
 
 refresh happens for every image in multi upload. do it for just one??
 Clean up the front end - decent display
 Add error handling
-Allow for multiple directories
 Allow for launching a process on one or more files (art, remove people)
 
- 
+Better presentation of thumbnails
+Use cropping: https://www.w3docs.com/snippets/css/how-to-crop-and-center-an-image-automatically-in-css.html
+Create a fill algorithm where the photos fill the full space.
+General idea: fixed height rows. Then do a calculation based on the aspect ratio of the images
+how many should be in each row, and how wide. Then adjust the grid property to fit.
+Means we need one .myContainer per row (currently the grid is the same on every row)
+Also means that rather than processing the images sequentially we need to do a readahead
+and process the image display in row batches. 
+This needs to be done tied to css mediaquery which adds an additional challenge - probably 
+need to get that back through js.

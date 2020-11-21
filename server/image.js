@@ -27,7 +27,8 @@ imageClass: class {
         this.width;
         this.height;
         this.orientation;
-        this.version = 3; // change this any time the object definition changes
+        this.aspectRatio;
+        this.version = 4; // change this any time the object definition changes
     }
     addFileInfo(file, folder, rootDirectory) {
         this.filename = path.basename(file);
@@ -55,6 +56,7 @@ imageClass: class {
                 that.width = exifData.exif.ExifImageWidth;
                 that.height = exifData.exif.ExifImageHeight;
                 that.orientation = exifData.image.Orientation;
+                that.aspectRatio = that.width / that.height;
                 logger.write('exif w+h ',that.width+" "+that.height,2); 
             });
     }

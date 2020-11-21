@@ -44,11 +44,13 @@ paintBox = function (root,p,s) {
   $(boxDiv).attr({
     "class":"box",
     "id": "id-"+p.imageID,
+    "position": "relative"
   });
+  // Image Element
   imgElement = document.createElement('img');
   $(imgElement).attr({
     "src":    s3tbroot+p.imageID,
-    "height": "100%",
+    "height": "90%",
     "alt":    p.filename ,
     "class":  "center-block",
     "max-width": "95%",
@@ -58,7 +60,26 @@ paintBox = function (root,p,s) {
     localStorage.setItem('seqNum',s);
     paintFullScreen(p)
   });
+  // Control elements
+  boxControls = document.createElement('div');
+  $(boxControls).attr({
+    "class": "boxControl"
+  })
+  trashButton = document.createElement('i');
+  $(trashButton).attr({
+    "class": "fas fa-trash-alt"
+  })
+  $(trashButton).click(function() {
+    deleteImage(p)
+  });
+  selectButton = document.createElement('i');
+  $(selectButton).attr({
+    "class" : "far fa-check-circle"
+  })
+  $(boxControls).append(trashButton);
+  $(boxControls).append(selectButton);
   $(boxDiv).append(imgElement);
+  $(boxDiv).append(boxControls);
   $(root).append(boxDiv); 
 }
 
@@ -81,6 +102,12 @@ paintFullScreen = function(p){
   textElement.innerHTML = p.filename;
   contentBrowser.firstElementChild.append(textElement)
 }
+
+// Delete an image
+deleteImage = function(p) {
+  console.log('delete clicked '+p.filename)
+}
+
 
 // Process file upload
 $(document).on("click", "#upload", function() {

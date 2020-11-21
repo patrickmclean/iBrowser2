@@ -89,11 +89,19 @@ p {
     background-color: #d8dada;
     border: 1px solid #fff;
     padding: 5px;
-    font-size: 30px;
+    font-size: 16px;
+    color: grey;
     text-align: center;
     height: 150px;
-    overflow: hidden
+    overflow: hidden;
+    position: relative
   }
+
+.boxControl {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+}
 
 .imageTab {
     text-align: center;
