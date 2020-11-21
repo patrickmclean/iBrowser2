@@ -69,6 +69,7 @@ paintBox = function (root,p,s) {
   $(trashButton).attr({
     "class": "fas fa-trash-alt"
   })
+  $(trashButton).html('&nbsp');
   $(trashButton).click(function() {
     deleteImage(p)
   });
@@ -105,7 +106,20 @@ paintFullScreen = function(p){
 
 // Delete an image
 deleteImage = function(p) {
-  console.log('delete clicked '+p.filename)
+  console.log('delete clicked '+p.filename);
+  let data = JSON.stringify(p);
+  $.ajax({
+    url: "/deleteimage", 
+    contentType: "application/json",
+    data: data,
+    type: 'post',
+    success: function() {
+      console.log('Ajax came back');
+    },
+    complete: function (data){
+      console.log('Ajax complete'+data);
+    }
+  });
 }
 
 

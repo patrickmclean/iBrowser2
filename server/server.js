@@ -10,6 +10,7 @@ const ps = require('./pubsub');
 // set location for js, css etc
 app.use(express.static('client'));
 app.use(fileUpload());
+app.use(express.json())
 
 // host the index page
 app.get('/index.html', function (req, res) {
@@ -27,8 +28,8 @@ app.post('/upload', function(req, res) {
    res.sendStatus(200);
 });
 
- // get image list
- app.get('/loadimages', function(req, res){
+// get image list
+app.get('/loadimages', function(req, res){
    logger.write('loadimages','called',2);
    rh.loadImages()
    .then(result => {
@@ -36,6 +37,13 @@ app.post('/upload', function(req, res) {
       res.send(JSON.stringify(result));
    })
 })
+
+// process delete image
+app.post('/deleteimage', function(req,res){
+   logger.write('deleteimage',req.body.filename,1)
+})
+
+
 
 // Prep server side event stream for sending async refresh updates
 app.get('/serverstream', (req, res) => {
