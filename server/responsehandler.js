@@ -55,6 +55,10 @@ module.exports = {
         return data;
     },
 
+    deleteImage: async function () {
+        logger.write('deleteImage',img.fileName,2);
+    }
+
     
 
     listener: ps.subscribe('resizer', function(obj){

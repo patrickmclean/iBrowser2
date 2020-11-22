@@ -1,5 +1,5 @@
 fs = require('fs');
-config = require('../config/config');
+config = require('../config/config.js');
 
 module.exports = {
     create: function () {

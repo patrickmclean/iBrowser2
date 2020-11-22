@@ -23,6 +23,23 @@ module.exports = {
             })
         };
     })
+  },
+
+  deleteFromS3: function(img){
+    aws.config.update(config.aws_remote_config);
+    const s3 = new aws.S3();
+    logger.write('s3delete',uploadParams.Key +" to "+uploadParams.Bucket,2);
+    s3.upload(uploadParams, function (err, data, uploadParams2=uploadParams){
+        if (err) {
+            throw(err)
+        } else {
+            logger.write('s3upload','complete '+uploadParams2.Key,2);
+            ps.publish('s3uploads', {
+                content: data,
+                item: uploadParams2.Key
+            })
+        };
+    })
   }
 }
 

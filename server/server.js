@@ -5,6 +5,7 @@ const fileUpload = require('express-fileupload');
 const rh = require("./responsehandler");
 const logger = require('./logger');
 const ps = require('./pubsub');
+const config = require('../config/config.js');
 
 
 // set location for js, css etc
@@ -41,6 +42,7 @@ app.get('/loadimages', function(req, res){
 // process delete image
 app.post('/deleteimage', function(req,res){
    logger.write('deleteimage',req.body.filename,1)
+   rh.deleteImage(req.body);
 })
 
 
@@ -70,7 +72,7 @@ app.get('/serverstream', (req, res) => {
     // Random - this is hosting christine's key server, just for convenience
    app.get('/getkey', function(req, res){
    logger.write('getkey','called',2);
-   res.send('ThisIsAKey');
+   res.send(config.christine_key);
    })
    
 });
