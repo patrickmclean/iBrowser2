@@ -53,8 +53,7 @@ I can see a third list of the results
 
 
 # What's next
-Add a delete button
-Add a select button
+originals files don't have .jpg suffix
 Add tagging, so the uploads to different tabs have different tags (could be directory but probably not)
 Launch deepart, including launching and stopping the server
 

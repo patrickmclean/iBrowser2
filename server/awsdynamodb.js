@@ -29,6 +29,28 @@ module.exports = {
       }
     });
   },
+
+  delete: async function(item){
+    logger.write('aws ddb ', 'delete: '+item.filename,2);
+
+    AWS.config.update(config.aws_remote_config);
+
+    const ddb = new AWS.DynamoDB;
+    
+    const params = {
+      TableName: config.aws_table_name,
+      Key: {'imageID': {S: item.imageID}}
+    };
+    
+    ddb.deleteItem(params, function(err, data) {
+      if (err) {
+          logger.write('awsddb', 'ddb delete err '+err,1);
+      } else {
+        logger.write('awsddb', 'ddb delete success '+data,2);
+        const { Items } = data;
+      }
+    });
+  },
   
   readAll: async function() {
     logger.write('ddb','readAll',3);

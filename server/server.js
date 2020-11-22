@@ -55,17 +55,24 @@ app.get('/serverstream', (req, res) => {
    res.setHeader("Access-Control-Allow-Origin", "*");
    res.flushHeaders(); // flush the headers to establish SSE with client
 
-   let sub = ps.subscribe('s3uploads', function(obj) {
-      logger.write('serverstream listener',obj.item,2);
+   let sub1 = ps.subscribe('s3uploads', function(obj) {
+      logger.write('serverstream listener uploads',obj.item,2);
       if(obj.item.includes("tb")) {
          res.write(`data: refresh ${obj.item}\n\n`); 
       }
    });
-   
+   let sub2 = ps.subscribe('s3delete', function(obj) {
+      logger.write('serverstream listener delete',obj.item,2);
+      if(obj.item.includes("tb")) {
+         res.write(`data: refresh ${obj.item}\n\n`); 
+      }
+   });
+
    // If client closes connection, stop sending events
    res.on('close', () => {
        logger.write('serverstream','client dropped connection',2);
-       sub.remove();
+       sub1.remove();
+       sub2.remove();
        res.end();
    });
 

@@ -106,7 +106,6 @@ paintFullScreen = function(p){
 
 // Delete an image
 deleteImage = function(p) {
-  console.log('delete clicked '+p.filename);
   let data = JSON.stringify(p);
   $.ajax({
     url: "/deleteimage", 

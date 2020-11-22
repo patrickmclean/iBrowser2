@@ -4,6 +4,7 @@ const image = require('./image.js');
 const ps = require('./pubsub');
 const awss3 = require('./awss3');
 const logger = require('./logger');
+const { s3_gallery_folder } = require('../config/config');
 
 module.exports = {
 
@@ -55,8 +56,24 @@ module.exports = {
         return data;
     },
 
-    deleteImage: async function () {
-        logger.write('deleteImage',img.fileName,2);
+    deleteImage: async function (image) {
+        logger.write('deleteImage',image.fileName,2);
+        let params = {
+            Bucket: config.s3_originals_folder, 
+            Key: image.imageID, 
+        };
+        awss3.deleteFromS3(params);
+        params = {
+            Bucket: config.s3_gallery_folder, 
+            Key: 'gl_'+image.imageID, 
+        };
+        awss3.deleteFromS3(params);
+        params = {
+            Bucket: config.s3_thumbnail_folder, 
+            Key: 'tb_'+image.imageID, 
+        };
+        awss3.deleteFromS3(params);
+        ddb.delete(image);
     },
 
     
