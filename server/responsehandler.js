@@ -57,7 +57,7 @@ module.exports = {
 
     deleteImage: async function () {
         logger.write('deleteImage',img.fileName,2);
-    }
+    },
 
     
 
