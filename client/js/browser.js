@@ -50,7 +50,7 @@ paintBox = function (root,p,s) {
   imgElement = document.createElement('img');
   $(imgElement).attr({
     "src":    s3tbroot+p.imageID,
-    "height": "90%",
+    "height": "100%",
     "alt":    p.filename ,
     "class":  "center-block",
     "max-width": "95%",
@@ -90,10 +90,12 @@ paintFullScreen = function(p){
   let imgElementFull = document.createElement('img');
   $(imgElementFull).attr({
     "src":    s3root+p.imageID,
-    "height": "400px",
+    "height": "80%",
     "alt":    p.filename ,
-    "class":  "center-block",
-    "max-width": "95%",
+    "align-items": "center",
+    //"class":  "center-block",
+    //"max-width": "95%",
+    "object-fit": "contain"
   })
   let rootBrowser = document.getElementById("modalBrowser");
   rootBrowser.style.display = "block";

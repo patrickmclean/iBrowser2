@@ -19,13 +19,13 @@
           <h4 class="text-center txtWhite">File Upload</h2>
     </div> 
 
-    <div class="myContainer">
+    <div >
       <input 
         id="fileInput" 
         type="file" 
         multiple=""
         accept="image/jpeg,image/png,image/heif,image/heic,image/heif-sequence,image/heic-sequence" 
-        class="centerElement-Button"
+        class="centerElement-"
       >
       <button 
         type="button" 
@@ -38,30 +38,33 @@
     <!-- Thumbnail display section -->
     
     <h4 class="text-center txtWhite">Images</h4>
-    <div class="w3-border">
-    <div class="w3-bar w3-light-grey">
-      <button class="w3-bar-item w3-button w3-dark-grey" onclick="openTab('Input')">Input</button>
-      <button class="w3-bar-item w3-button" onclick="openTab('Reference')">Reference</button>
-      <button class="w3-bar-item w3-button" onclick="openTab('Output')">Output</button>
+    <div class="w3-border"> 
+      <div class="w3-bar w3-light-grey">
+        <button class="w3-bar-item w3-button w3-dark-grey" onclick="openTab('Input')">Input</button>
+        <button class="w3-bar-item w3-button" onclick="openTab('Reference')">Reference</button>
+        <button class="w3-bar-item w3-button" onclick="openTab('Output')">Output</button>
+      </div>
+      <div id="Input" class="imageTab"> 
+        <div class="myContainer" id="inputImageList"></div>  
+      </div>
+      <div id="Reference" class="imageTab" style="display:none">  
+        <div class="myContainer" id="referenceImageList" ></div>  
+      </div>
+      <div id="Output" class="imageTab" style="display:none"> 
+        <div class="myContainer" id="outputImageList" ></div>  
+      </div>
     </div>
-    <div id="Input" class="imageTab"> 
-      <div class="myContainer" id="inputImageList"></div>  
-    </div>
-    <div id="Reference" class="imageTab" style="display:none">  
-      <div class="myContainer" id="referenceImageList" ></div>  
-    </div>
-    <div id="Output" class="imageTab" style="display:none"> 
-      <div class="myContainer" id="outputImageList" ></div>  
-    </div>
-  </div>
 
   <!-- Modal Browser -->
   <div id="modalBrowser" class="modal">
+    
     <div class="modal-container">
-      <span class="close">&times;</span>
-      <span onclick="lastImage()" display = "inline-block" width="50px"><i class="fas fa-chevron-left"></i></span>
-      <span id="modal-content" display = "inline-block"></span>
-      <span onclick="nextImage()" display = "inline-block"><i class="fas fa-chevron-right"></i></span>
+      <div class="close"><span style = "float: right">&times;</span></div>
+      <div class="m2">
+        <div onclick="lastImage()" ><i class="fas fa-chevron-left arrow"></i></div>
+        <div id="modal-content" class="modal-content"></div>
+        <div onclick="nextImage()" > <i class="fas fa-chevron-right arrow"></i></div>
+      </div>
     </div>
   </div>
 

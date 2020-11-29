@@ -17,7 +17,7 @@ p {
 
 [class*="centerElement-"] {
     padding: 5px;
-    width: 75%;
+    width: 40%;
     font-size: 16px;
     text-align: center;
     margin-left: auto;
@@ -77,24 +77,21 @@ p {
 
 
 .myContainer {
-    display: inline-grid;
-    grid-template-columns: 33% 33% 33%;
-    border: 5px #fff solid;  
-    padding: 0px;
-    width: 95%;
-    text-align: center
+    display: flex; /* was inline-grid */
+    text-align: center;
+    flex-wrap: wrap;
   }
 
 .box {
     background-color: #d8dada;
-    border: 1px solid #fff;
-    padding: 5px;
+    /*border: 1px solid #fff; */
+    padding: 3px;
     font-size: 16px;
-    color: grey;
+    color: rgb(200, 200, 200);
     text-align: center;
-    height: 150px;
     overflow: hidden;
-    position: relative
+    position: relative;
+    height: 190px;
 }
 
 .box:hover .boxControl{
@@ -217,15 +214,41 @@ button:-moz-focusring, [type=button]:-moz-focusring, [type=reset]:-moz-focusring
     margin: 15% auto; /* 15% from the top and centered */
     padding: 20px;
     border: 1px solid #888;
-    width: 80%; /* Could be more or less, depending on screen size */
+    width: 80%;
+    height: 80%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: flex-end;
+  }
+
+  .m2 {
+      display: flex;
+    align-items: center;
+    flex: 1;
+    height: 80%;
+  }
+
+  .modal-content {
+      height: 100%;
+      align-items: center;
+      display: flex;
   }
   
+  .modal-content img {
+      width: 100%;
+      object-fit: contain;
+      margin: auto;
+      align-items: center;
+  }
   /* The Close Button */
   .close {
     color: #aaa;
     float: right;
     font-size: 28px;
     font-weight: bold;
+    justify-content: flex-end;
+    width: 100%
   }
   
   .close:hover,
@@ -235,8 +258,14 @@ button:-moz-focusring, [type=button]:-moz-focusring, [type=reset]:-moz-focusring
     cursor: pointer;
   }
 
+  .arrow {
+      padding-left: 10px;
+      padding-right: 10px;
+      font-size: 25px;
+      color: darkgrey;
+  }
 
-/* Responsive - drop number of columns on smaller devices */
+/* Responsive - drop number of columns on smaller devices 
 @media (max-width:767px) {
     .myContainer { grid-template-columns:50% 50%}
-}
+}*/
