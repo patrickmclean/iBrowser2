@@ -76,8 +76,10 @@ p {
 }
 
 
+/* Thumbnail section */
+
 .myContainer {
-    display: flex; /* was inline-grid */
+    display: flex; 
     text-align: center;
     flex-wrap: wrap;
   }
@@ -92,12 +94,16 @@ p {
     overflow: hidden;
     position: relative;
     height: 190px;
+    position: relative;
+}
+
+.box img{
+    height: 100%;
 }
 
 .box:hover .boxControl{
     display: block
 }
-
 
 .boxControl {
     position: absolute;
@@ -106,9 +112,27 @@ p {
     display: none
 }
 
-.imageTab {
-    text-align: center;
+.boxControl .trash:hover {
+    color: rgb(240, 240, 200);
 }
+
+.boxControl .select:hover {
+    color: rgb(240, 240, 200);
+}
+/* end thumbnail */
+
+/* Processing section */
+
+.imageTab {
+    display: none;
+    padding: 6px 12px;
+    border: 1px solid #ccc;
+    border-top: none;
+    
+}
+
+
+
 
 button, input, select, textarea, optgroup {
     font: inherit;
@@ -140,6 +164,45 @@ button:-moz-focusring, [type=button]:-moz-focusring, [type=reset]:-moz-focusring
     outline: 1px dotted ButtonText
 }
 
+/* New tab styling */
+/* Style the tab */
+.tab {
+    overflow: hidden;
+    border: 1px solid #ccc;
+    background-color: #f1f1f1;
+  }
+  
+  /* Style the buttons that are used to open the tab content */
+  .tab button {
+    background-color: inherit;
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    transition: 0.3s;
+  }
+  
+  /* Change background color of buttons on hover */
+  .tab button:hover {
+    background-color: #ddd;
+  }
+  
+  /* Create an active/current tablink class */
+  .tab button.active {
+    background-color: #ccc;
+  }
+  
+  /* Style the tab content */
+  .tabcontent {
+    display: none;
+    padding: 6px 12px;
+    border: 1px solid #ccc;
+    border-top: none;
+  }
+
+/* w3 buttons are used for the tabs */
+
 .w3-btn, .w3-button {
     border: none;
     display: inline-block;
@@ -157,6 +220,12 @@ button:-moz-focusring, [type=button]:-moz-focusring, [type=reset]:-moz-focusring
 .w3-button:hover {
     color: #000 !important;
     background-color: #ccc !important
+}
+
+.w3-button.active {
+   
+    color: #000 !important;
+    background-color: #f1f1f1 !important
 }
 
 .w3-btn, .w3-button {
@@ -211,7 +280,7 @@ button:-moz-focusring, [type=button]:-moz-focusring, [type=reset]:-moz-focusring
   /* Modal Content/Box */
   .modal-container {
     background-color: #fefefe;
-    margin: 15% auto; /* 15% from the top and centered */
+    margin: 5% auto; /* 5% from the top and centered */
     padding: 20px;
     border: 1px solid #888;
     width: 80%;

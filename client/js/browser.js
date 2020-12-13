@@ -21,44 +21,40 @@ $(document).ready(function() {
 
 // Load list of stored images
 loadImages = function() {
-  let s = 0; // seqNum
+  let seqNum = 0; 
   $.get("/loadimages")
   .done(function(string){
       let images = JSON.parse(string);
       $('#inputImageList').empty();
-      $.each(images, function(i, p) {
-        paintBox('#inputImageList',p,s++);
+      $.each(images, function(index, image) {
+        paintBox('#inputImageList',image,seqNum++);
       });
       // save to local storage
       localStorage.setItem('imageArray', string);
       localStorage.setItem('seqNum',"0");
-      localStorage.setItem('maxImages',String(s-1));
+      localStorage.setItem('maxImages',String(seqNum-1));
   })
 }
 
 // the box is the element that includes the thumbnail
-paintBox = function (root,p,s) {
+paintBox = function (root,image,seqNum) {
   s3tbroot = "https://ibrowser-thumbnails.s3.us-east-2.amazonaws.com/tb_" // this should be coming in the file upload object
   boxDiv = document.createElement('div');
   // Thumbnail box
   $(boxDiv).attr({
     "class":"box",
-    "id": "id-"+p.imageID,
-    "position": "relative"
+    "id": "id-"+image.imageID,
   });
   // Image Element
   imgElement = document.createElement('img');
   $(imgElement).attr({
-    "src":    s3tbroot+p.imageID,
-    "height": "100%",
-    "alt":    p.filename ,
-    "class":  "center-block",
-    "max-width": "95%",
+    "src":    s3tbroot+image.imageID,
+    "alt":    image.filename ,
   });
   // Full screen modal box
   $(imgElement).click(function() {
-    localStorage.setItem('seqNum',s);
-    paintFullScreen(p)
+    localStorage.setItem('seqNum',seqNum);
+    paintFullScreen(image)
   });
   // Control elements
   boxControls = document.createElement('div');
@@ -67,15 +63,18 @@ paintBox = function (root,p,s) {
   })
   trashButton = document.createElement('i');
   $(trashButton).attr({
-    "class": "fas fa-trash-alt"
+    "class": "fas fa-trash-alt trash",
   })
   $(trashButton).html('&nbsp');
   $(trashButton).click(function() {
-    deleteImage(p)
+    deleteImage(image);
   });
   selectButton = document.createElement('i');
   $(selectButton).attr({
-    "class" : "far fa-check-circle"
+    "class" : "far fa-check-circle select"
+  })
+  $(selectButton).click(function(clickEvent){
+    selectImage(image,getSelectedTab());
   })
   $(boxControls).append(trashButton);
   $(boxControls).append(selectButton);
@@ -90,12 +89,7 @@ paintFullScreen = function(p){
   let imgElementFull = document.createElement('img');
   $(imgElementFull).attr({
     "src":    s3root+p.imageID,
-    "height": "80%",
     "alt":    p.filename ,
-    "align-items": "center",
-    //"class":  "center-block",
-    //"max-width": "95%",
-    "object-fit": "contain"
   })
   let rootBrowser = document.getElementById("modalBrowser");
   rootBrowser.style.display = "block";
@@ -107,8 +101,8 @@ paintFullScreen = function(p){
 }
 
 // Delete an image
-deleteImage = function(p) {
-  let data = JSON.stringify(p);
+deleteImage = function(image) {
+  let data = JSON.stringify(image);
   $.ajax({
     url: "/deleteimage", 
     contentType: "application/json",
@@ -123,6 +117,10 @@ deleteImage = function(p) {
   });
 }
 
+selectImage = function(image,tab){
+  
+  document.getElementById(tab).innerHTML=image.filename;
+}
 
 // Process file upload
 $(document).on("click", "#upload", function() {
@@ -152,13 +150,33 @@ $(document).on("click", "#upload", function() {
 });
 
 // Move between tabs
-function openTab(tabName) {
-  var i;
-  var x = document.getElementsByClassName("imageTab");
-  for (i = 0; i < x.length; i++) {
-    x[i].style.display = "none"; 
+function openTab(evt,tabName) {
+  var i, tabcontent, tablinks;
+  // Get all elements with class="tabcontent" and hide them
+  tabcontent = document.getElementsByClassName("tabcontent");
+  for (i = 0; i < tabcontent.length; i++) {
+    tabcontent[i].style.display = "none";
   }
-  document.getElementById(tabName).style.display = "block"; 
+  // Get all elements with class="tablinks" and remove the class "active"
+  tablinks = document.getElementsByClassName("tablinks");
+  for (i = 0; i < tablinks.length; i++) {
+    tablinks[i].className = tablinks[i].className.replace(" active", "");
+  }
+  
+  // Show the current tab, and add an "active" class to the button that opened the tab
+  document.getElementById(tabName).style.display = "block";
+  evt.currentTarget.className += " active";
+}
+
+function getSelectedTab(){
+  var x = document.getElementsByClassName("tabcontent");
+  let selected = null;
+  for (i = 0; i < x.length; i++) {
+    if (x[i].getAttribute("style")=="display: block;") {
+      selected = x[i].id;
+    }
+  }
+  return selected;
 }
 
 // Move between images fullscreen

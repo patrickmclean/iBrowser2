@@ -53,10 +53,13 @@ I can see a third list of the results
 
 
 # What's next
+Fix modal where images break out of box
+Copy files to ec2 instance for processing
+Then launch processing
+
+
 Add tagging, so the uploads to different tabs have different tags (could be directory but probably not)
 Launch deepart, including launching and stopping the server
-
-Move styling info in browser.js into css file
 
 refresh happens for every image in multi upload. do it for just one??
 Clean up the front end - decent display
