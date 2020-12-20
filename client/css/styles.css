@@ -309,6 +309,7 @@ button:-moz-focusring, [type=button]:-moz-focusring, [type=reset]:-moz-focusring
       object-fit: contain;
       margin: auto;
       align-items: center;
+      height: 100%;
   }
   /* The Close Button */
   .close {

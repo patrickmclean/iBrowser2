@@ -53,7 +53,6 @@ I can see a third list of the results
 
 
 # What's next
-Fix modal where images break out of box
 Copy files to ec2 instance for processing
 Then launch processing
 

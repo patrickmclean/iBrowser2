@@ -29,6 +29,18 @@ app.post('/upload', function(req, res) {
    res.sendStatus(200);
 });
 
+// process file download
+// this is currently broken since it is downloading files
+// where it should be parsing json
+app.post('/download', function(req,res){
+   logger.write('download','called',2);
+   if (!req.body) {
+      return res.status(400).send('No files were sent');
+    }
+    rh.downloadFile(req.body);
+    res.sendStatus(200);
+})
+
 // get image list
 app.get('/loadimages', function(req, res){
    logger.write('loadimages','called',2);

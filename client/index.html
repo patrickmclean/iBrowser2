@@ -39,22 +39,24 @@
     <h4 class="text-center txtWhite">Processing</h4>
     <div class="w3-border"> 
       <div class="tab">
-        <button class="tablinks" id="InputTab" onclick="openTab(event, 'Input')">Input</button>
-        <button class="tablinks" id="ReferenceTab" onclick="openTab(event,'Reference')">Reference</button>
-        <button class="tablinks" id="OutputTab" onclick="openTab(event,'Output')">Output</button>
-        <button class="tablinks" id="ProcessTab" onclick="openTab(event,'Process')">Process</button>
+        <button class="tablinks" onclick="openTab(event, 'input')">Input</button>
+        <button class="tablinks" onclick="openTab(event,'reference')">Reference</button>
+        <button class="tablinks" onclick="openTab(event,'output')">Output</button>
+        <button class="tablinks" onclick="openTab(event,'process')">Process</button>
       </div>
-      <div id="Input" class="tabcontent" style="display: block;"> 
-        InputContent
+      <div id="input" class="tabcontent" style="display: block;"> 
+        <div class="myContainer" id="inputTab" style="color:grey; font-style:italic">Input Image</div>  
       </div>
-      <div id="Reference" class="tabcontent">  
-       ReferenceContent
+      <div id="reference" class="tabcontent">  
+        <div class="myContainer" id="referenceTab" style="color:grey; font-style:italic">Reference Image</div>  
       </div>
-      <div id="Output" class="tabcontent" > 
-        OutputContent
+      <div id="output" class="tabcontent" > 
+        <div class="myContainer" id="outputTab">Output Image</div>  
       </div>
-      <div id="Process" class="tabcontent" > 
-        ProcessContent
+      <div id="process" class="tabcontent" > 
+        <div class="myContainer" id="processTab">
+          <button onclick="launchProcess(event)">DeepArt</button>
+        </div>  
       </div>
     </div>
 

@@ -108,7 +108,7 @@ deleteImage = function(image) {
     contentType: "application/json",
     data: data,
     type: 'post',
-    success: function() {
+    success: function() { 
       console.log('Ajax came back');
     },
     complete: function (data){
@@ -118,8 +118,36 @@ deleteImage = function(image) {
 }
 
 selectImage = function(image,tab){
-  
-  document.getElementById(tab).innerHTML=image.filename;
+  let divName = tab+"Tab";
+  let divNameJQ = '#'+tab+'Tab';
+  console.log(divName);
+  document.getElementById(divName).innerHTML=""; 
+  if (tab=="input" || tab=="reference") 
+    { paintBox(divNameJQ,image,1);}
+}
+
+launchProcess = function(evt){
+  // this is a fairly dodgy way of storing the image info by extracting it from the dom
+  // could use local storage, but that would also be redundant, so maybe... ?
+  input = document.getElementById("inputTab").firstChild.id
+  reference = document.getElementById("referenceTab").firstChild.id
+  console.log(input + " " + reference);
+  var obj = {'input': input, 'reference': reference}
+  var objJSON = JSON.stringify(obj);
+  $.ajax({
+    url: "/download", 
+    contentType : "application/json", 
+    dataType: 'json',
+    data: objJSON,
+    type: 'post',
+    success: function() {
+      console.log('download call success');
+    },
+    error: function() {
+      console.log('download call error')
+    }
+  });
+
 }
 
 // Process file upload
@@ -133,18 +161,13 @@ $(document).on("click", "#upload", function() {
   $.ajax({
     url: "/upload", 
     dataType: 'script',
-    cache: false,
-    contentType: false,
-    processData: false,
     data: form_data,
     type: 'post',
     success: function() {
-      console.log('Ajax came back');
-      // this doesn't work - to be figured out.
+      console.log('Ajax success');
     },
-    complete: function (data){
-      console.log('Ajax complete'+data);
-      // loadImages(); Need to change this - will load images after cascade of pubsub
+    error: function() {
+      console.log('upload call error');
     }
   });
 });

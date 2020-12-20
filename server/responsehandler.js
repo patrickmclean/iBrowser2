@@ -4,7 +4,7 @@ const image = require('./image.js');
 const ps = require('./pubsub');
 const awss3 = require('./awss3');
 const logger = require('./logger');
-const { s3_gallery_folder } = require('../config/config');
+const config = require('../config/config.js');
 
 module.exports = {
 
@@ -20,6 +20,12 @@ module.exports = {
             logger.write('UploadSingle ',files.fileName.name,2);
             this.processUpload(files.fileName)
         }
+    },
+
+    downloadFile: function(files){
+        logger.write("Download ",files.input+" "+files.references);
+        awss3.downloadFromS3(files.input,config.processingRoot+"/input/");
+        awss3.downloadFromS3(files.reference,config.processingRoot+"/reference/");   
     },
 
     processUpload : function (file) {
