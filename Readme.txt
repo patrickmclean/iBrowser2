@@ -56,6 +56,7 @@ I can see a third list of the results
 Copy files to ec2 instance for processing
 Then launch processing
 
+We lose the .jpg in upload. Need to fix this, will cause problems down the line
 
 Add tagging, so the uploads to different tabs have different tags (could be directory but probably not)
 Launch deepart, including launching and stopping the server

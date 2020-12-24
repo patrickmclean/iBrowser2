@@ -135,16 +135,16 @@ launchProcess = function(evt){
   var obj = {'input': input, 'reference': reference}
   var objJSON = JSON.stringify(obj);
   $.ajax({
-    url: "/download", 
+    url: "/process", 
     contentType : "application/json", 
     dataType: 'json',
     data: objJSON,
     type: 'post',
     success: function() {
-      console.log('download call success');
+      console.log('process call success');
     },
     error: function() {
-      console.log('download call error')
+      console.log('process call error')
     }
   });
 

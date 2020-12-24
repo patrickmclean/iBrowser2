@@ -1,0 +1,1 @@
+magick ./input/dbfb738d-65a6-4795-856e-b56d432ce57b.jpg -resize '50%x200%' ./output/t1.jpg

@@ -4,6 +4,8 @@ const config = require('../config/config.js');
 const logger = require('./logger.js');
 const ps = require('./pubsub');
 const fs = require('fs');
+const stream = require('stream');
+const {spawn} = require("child_process");
 
 // AWS config update is called for every call
 // Likely not efficient, add some session state at some point
@@ -26,9 +28,8 @@ module.exports = {
     })
   },
 
-  downloadFromS3: function(imageID,location){
-    let remoteFilename = imageID.replace('id-','');
-    let localFilename = location + imageID.replace('id-','') + '.jpg';
+  /* Not using this anymore */
+  downloadFromS3: function(remoteFilename,localFilePath){
     aws.config.update(config.aws_remote_config);
     const s3 = new aws.S3();
     let downloadParams = {
@@ -37,14 +38,40 @@ module.exports = {
     };
     logger.write('s3download',downloadParams.Key +" from "+downloadParams.Bucket,2);
     let s3stream =  s3.getObject(downloadParams).createReadStream();
-    let writeStream = fs.createWriteStream(localFilename);
+    let writeStream = fs.createWriteStream(localFilePath);
     s3stream.pipe(writeStream);
     s3stream.on('end', function (){
-      logger.write('writeFileDone',localFilename,2)
+      logger.write('writeFileDone',localFilePath,2)
     })
     s3stream.on('error', function (err){
-      logger.write('writeFileError',localFilename,2)
+      logger.write('writeFileError',localFilePath,2)
     })
+  },
+
+  processS3Files: function(inputFile, outputFile, process, args){
+    aws.config.update(config.aws_remote_config);
+    const s3 = new aws.S3();
+    let readParams = {
+        Bucket: config.s3_originals_folder, 
+        Key: inputFile, 
+    };
+    let writeParams = {
+      Bucket: config.s3_output_folder, 
+      Key: outputFile, 
+    };
+    logger.write('s3process',readParams.Key +" from "+readParams.Bucket,2);
+    let s3readStream =  s3.getObject(readParams).createReadStream();
+    let proc = spawn(process,args);
+    s3readStream.pipe(proc.stdin);
+    proc.stdout.pipe(uploadFromStream(s3,writeParams));
+  
+    s3readStream.on('end', function (){
+      logger.write('s3proc read complete',inputFile,2)
+    })
+    s3readStream.on('error', function (err){
+      logger.write('s3proc read file error',inputFile,2)
+    })
+    
   },
 
   deleteFromS3: function(params){
@@ -65,3 +92,28 @@ module.exports = {
   }
 }
 
+/* This is a promise version of uploadfromstream but ran with errors 
+
+const uploadStream = ({ Bucket, Key }) => {
+  const s3 = new aws.S3();
+  const pass = new stream.PassThrough();
+  return {
+    writeStream: pass,
+    promise: s3.upload({ Bucket, Key, Body: pass }).promise(),
+  };
+}
+*/
+
+
+function uploadFromStream(s3,{Bucket, Key}) {
+  var pass = new stream.PassThrough();
+  var params = {Bucket: Bucket, Key: Key, Body: pass};
+  s3.upload(params, function(err, data) {
+    if (err) {
+      throw(err)
+  } else {
+      logger.write('process write','complete '+Key,2);
+  };
+  });
+  return pass;
+}

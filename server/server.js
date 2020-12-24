@@ -32,12 +32,12 @@ app.post('/upload', function(req, res) {
 // process file download
 // this is currently broken since it is downloading files
 // where it should be parsing json
-app.post('/download', function(req,res){
-   logger.write('download','called',2);
+app.post('/process', function(req,res){
+   logger.write('process','called',2);
    if (!req.body) {
       return res.status(400).send('No files were sent');
     }
-    rh.downloadFile(req.body);
+    rh.processFiles(req.body);
     res.sendStatus(200);
 })
 

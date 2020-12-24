@@ -93,6 +93,5 @@ imageClass: class {
                 logger.write('Jimp error ',err+" "+item.filename,1);
             })
     }
-    
 }
 }

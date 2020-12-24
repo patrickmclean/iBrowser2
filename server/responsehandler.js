@@ -5,6 +5,7 @@ const ps = require('./pubsub');
 const awss3 = require('./awss3');
 const logger = require('./logger');
 const config = require('../config/config.js');
+const imageprocess = require('./imageprocess');
 
 module.exports = {
 
@@ -20,12 +21,6 @@ module.exports = {
             logger.write('UploadSingle ',files.fileName.name,2);
             this.processUpload(files.fileName)
         }
-    },
-
-    downloadFile: function(files){
-        logger.write("Download ",files.input+" "+files.references);
-        awss3.downloadFromS3(files.input,config.processingRoot+"/input/");
-        awss3.downloadFromS3(files.reference,config.processingRoot+"/reference/");   
     },
 
     processUpload : function (file) {
@@ -82,6 +77,20 @@ module.exports = {
         ddb.delete(image);
     },
 
+    processFiles: function(files){
+        let inputFile = files.input.replace('id-','');
+        let outputFile = 'test2.jpg';
+        let process = 'convert'; //imagemagick
+        let args = [
+            "-", // stdin
+            "-resize", "50%", 
+            "-blur", "0x6", 
+            "-bordercolor", "red",
+            "-border", "20", 
+            "-" // stdout
+        ];
+        awss3.processS3Files(inputFile,outputFile,process,args);
+    },
     
 
     listener: ps.subscribe('resizer', function(obj){
