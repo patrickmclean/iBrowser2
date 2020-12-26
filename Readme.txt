@@ -53,8 +53,9 @@ I can see a third list of the results
 
 
 # What's next
-Copy files to ec2 instance for processing
-Then launch processing
+Make the output file public
+Name output files by date and time
+Test the deepart first by creating web server around it, and removing guts so it can run locally
 
 We lose the .jpg in upload. Need to fix this, will cause problems down the line
 

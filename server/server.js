@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
 const fileUpload = require('express-fileupload');
-
+const image = require('./image.js');
 const rh = require("./responsehandler");
 const logger = require('./logger');
 const ps = require('./pubsub');
@@ -62,6 +62,7 @@ app.post('/deleteimage', function(req,res){
 // Prep server side event stream for sending async refresh updates
 app.get('/serverstream', (req, res) => {
    logger.write('serverstream','launch',2);
+   let responseJSON = "";
    res.setHeader('Cache-Control', 'no-cache');
    res.setHeader('Content-Type', 'text/event-stream');
    res.setHeader("Access-Control-Allow-Origin", "*");
@@ -70,21 +71,32 @@ app.get('/serverstream', (req, res) => {
    let sub1 = ps.subscribe('s3uploads', function(obj) {
       logger.write('serverstream listener uploads',obj.item,2);
       if(obj.item.includes("tb")) {
-         res.write(`data: refresh ${obj.item}\n\n`); 
+         responseJSON = JSON.stringify({"type": "refresh","data": obj.item});
+         res.write(`data: ${responseJSON}\n\n`);   
       }
    });
    let sub2 = ps.subscribe('s3delete', function(obj) {
       logger.write('serverstream listener delete',obj.item,2);
       if(obj.item.includes("tb")) {
-         res.write(`data: refresh ${obj.item}\n\n`); 
+         responseJSON = JSON.stringify({"type": "refresh","data": obj.item});
+         res.write(`data: ${responseJSON}\n\n`);   
       }
    });
+   let sub3 = ps.subscribe('procComplete', function(obj){
+      logger.write('serverstream listener proc complete',obj.item,2);
+      let imageItem = new image.imageClass;
+      imageItem.imageID = obj.item;
+      imageItem.filename = obj.item;
+      responseJSON = JSON.stringify({"type": "output","data": imageItem});
+      res.write(`data: ${responseJSON}\n\n`);   
+   })
 
    // If client closes connection, stop sending events
    res.on('close', () => {
        logger.write('serverstream','client dropped connection',2);
        sub1.remove();
        sub2.remove();
+       sub3.remove();
        res.end();
    });
 

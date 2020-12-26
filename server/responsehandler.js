@@ -5,7 +5,6 @@ const ps = require('./pubsub');
 const awss3 = require('./awss3');
 const logger = require('./logger');
 const config = require('../config/config.js');
-const imageprocess = require('./imageprocess');
 
 module.exports = {
 
@@ -27,7 +26,7 @@ module.exports = {
         
         // Create db item and add to ddb
         let imageItem = new image.imageClass;
-        logger.write('process upload - file.imageID',file.name+' '+imageItem    .imageID,2);
+        logger.write('process upload - file.imageID',file.name+' '+imageItem.imageID,2);
         imageItem.filename = file.name;
         imageItem.addDate(new Date());
         imageItem.getMetadata(file.data);
@@ -44,7 +43,7 @@ module.exports = {
             Bucket: config.s3_originals_folder, 
             Key: imageItem.imageID, 
             Body: file.data, 
-            ContentType: 'image/jpg',
+            //ContentType: 'image/jpg',
             ACL: 'public-read'
         };
         awss3.uploadToS3(uploadParams);
@@ -79,7 +78,8 @@ module.exports = {
 
     processFiles: function(files){
         let inputFile = files.input.replace('id-','');
-        let outputFile = 'test2.jpg';
+        let imageItem = new image.imageClass;
+        imageItem.addDate(new Date());
         let process = 'convert'; //imagemagick
         let args = [
             "-", // stdin
@@ -89,7 +89,7 @@ module.exports = {
             "-border", "20", 
             "-" // stdout
         ];
-        awss3.processS3Files(inputFile,outputFile,process,args);
+        awss3.processS3Files(inputFile,imageItem.imageID,process,args);
     },
     
 

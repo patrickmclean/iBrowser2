@@ -22,12 +22,13 @@ $(document).ready(function() {
 // Load list of stored images
 loadImages = function() {
   let seqNum = 0; 
+  const s3tbroot = "https://ibrowser-thumbnails.s3.us-east-2.amazonaws.com/tb_" // this should be coming in the file upload object
   $.get("/loadimages")
   .done(function(string){
       let images = JSON.parse(string);
       $('#inputImageList').empty();
       $.each(images, function(index, image) {
-        paintBox('#inputImageList',image,seqNum++);
+        paintBox('#inputImageList',s3tbroot,image,seqNum++);
       });
       // save to local storage
       localStorage.setItem('imageArray', string);
@@ -37,8 +38,7 @@ loadImages = function() {
 }
 
 // the box is the element that includes the thumbnail
-paintBox = function (root,image,seqNum) {
-  s3tbroot = "https://ibrowser-thumbnails.s3.us-east-2.amazonaws.com/tb_" // this should be coming in the file upload object
+paintBox = function (rootDiv,imageRoot,image,seqNum) {
   boxDiv = document.createElement('div');
   // Thumbnail box
   $(boxDiv).attr({
@@ -48,7 +48,7 @@ paintBox = function (root,image,seqNum) {
   // Image Element
   imgElement = document.createElement('img');
   $(imgElement).attr({
-    "src":    s3tbroot+image.imageID,
+    "src":    imageRoot+image.imageID,
     "alt":    image.filename ,
   });
   // Full screen modal box
@@ -80,7 +80,7 @@ paintBox = function (root,image,seqNum) {
   $(boxControls).append(selectButton);
   $(boxDiv).append(imgElement);
   $(boxDiv).append(boxControls);
-  $(root).append(boxDiv); 
+  $(rootDiv).append(boxDiv); 
 }
 
 // Paint Full Screen Element
@@ -120,10 +120,11 @@ deleteImage = function(image) {
 selectImage = function(image,tab){
   let divName = tab+"Tab";
   let divNameJQ = '#'+tab+'Tab';
+  const s3tbroot = "https://ibrowser-thumbnails.s3.us-east-2.amazonaws.com/tb_" 
   console.log(divName);
   document.getElementById(divName).innerHTML=""; 
   if (tab=="input" || tab=="reference") 
-    { paintBox(divNameJQ,image,1);}
+    { paintBox(divNameJQ,s3tbroot,image,1);}
 }
 
 launchProcess = function(evt){
@@ -230,8 +231,19 @@ function nextImage(){
 const sseSource = new EventSource('/serverstream');
 
 sseSource.addEventListener('message', (e) => {
-    const messageData = e.data;
-    console.log(messageData);
-    loadImages();
+    const messageData = JSON.parse(e.data);
+    console.log('sse '+messageData.type);
+    if (messageData.type == 'refresh') {
+      loadImages();
+    };
+    if (messageData.type == 'output') {
+      const divName = "outputTab";
+      const divNameJQ = '#outputTab';
+      const s3root = "https://ibrowser-output.s3.us-east-2.amazonaws.com/" // arg!
+      const imageItem = messageData.data;
+      document.getElementById(divName).innerHTML=""; 
+      paintBox(divNameJQ,s3root,imageItem,1);
+      document.getElementById("outputButton").click();
+    }
 });
 

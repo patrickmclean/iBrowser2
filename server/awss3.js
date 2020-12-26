@@ -6,6 +6,7 @@ const ps = require('./pubsub');
 const fs = require('fs');
 const stream = require('stream');
 const {spawn} = require("child_process");
+const image = require('./image.js');
 
 // AWS config update is called for every call
 // Likely not efficient, add some session state at some point
@@ -58,12 +59,13 @@ module.exports = {
     let writeParams = {
       Bucket: config.s3_output_folder, 
       Key: outputFile, 
+      ACL: 'public-read'
     };
     logger.write('s3process',readParams.Key +" from "+readParams.Bucket,2);
     let s3readStream =  s3.getObject(readParams).createReadStream();
     let proc = spawn(process,args);
     s3readStream.pipe(proc.stdin);
-    proc.stdout.pipe(uploadFromStream(s3,writeParams));
+    proc.stdout.pipe(this.uploadFromStream(s3,writeParams));
   
     s3readStream.on('end', function (){
       logger.write('s3proc read complete',inputFile,2)
@@ -72,6 +74,22 @@ module.exports = {
       logger.write('s3proc read file error',inputFile,2)
     })
     
+  },
+
+  uploadFromStream: function(s3,params) {
+    var pass = new stream.PassThrough();
+    params.Body = pass;
+    s3.upload(params, function(err, data) {
+      if (err) {
+        throw(err)
+      } else {
+        logger.write('process write','complete '+data.Key,2);
+        ps.publish('procComplete', {
+          item: data.Key
+        })
+      };
+    });
+    return pass;
   },
 
   deleteFromS3: function(params){
@@ -105,15 +123,3 @@ const uploadStream = ({ Bucket, Key }) => {
 */
 
 
-function uploadFromStream(s3,{Bucket, Key}) {
-  var pass = new stream.PassThrough();
-  var params = {Bucket: Bucket, Key: Key, Body: pass};
-  s3.upload(params, function(err, data) {
-    if (err) {
-      throw(err)
-  } else {
-      logger.write('process write','complete '+Key,2);
-  };
-  });
-  return pass;
-}
