@@ -27,6 +27,7 @@ app.post('/upload', function(req, res) {
    }
    rh.uploadFile(req.files);
    res.sendStatus(200);
+   // add error conditions
 });
 
 // process file download
@@ -49,14 +50,24 @@ app.get('/loadimages', function(req, res){
       logger.write('loadimages','returned',2);
       res.send(JSON.stringify(result));
    })
+   // add error conditions
 })
 
 // process delete image
 app.post('/deleteimage', function(req,res){
-   logger.write('deleteimage',req.body.filename,1)
+   logger.write('deleteimage',req.body.filename,2)
    rh.deleteImage(req.body);
+   res.sendStatus(200);
+   // add error conditions
 })
 
+app.get('/loadprocessingoptions', function(req,res){
+   logger.write('loadprocoptions','',2);
+   const options = rh.loadProcessingOptions();
+   logger.write('loadprocoptions','returned',2);
+   res.send(JSON.stringify(options));
+   //add error conditions
+})
 
 
 // Prep server side event stream for sending async refresh updates

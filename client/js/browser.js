@@ -17,6 +17,8 @@ $(document).ready(function() {
     }
     // Modal opening is set in paintBox below
 
+    // Load options for image processing
+    loadProcessingOptions();
 })
 
 // Load list of stored images
@@ -133,7 +135,7 @@ launchProcess = function(evt){
   input = document.getElementById("inputTab").firstChild.id
   reference = document.getElementById("referenceTab").firstChild.id
   console.log(input + " " + reference);
-  var obj = {'input': input, 'reference': reference}
+  var obj = {'input': input, 'reference': reference, 'process': evt.currentTarget.id}
   var objJSON = JSON.stringify(obj);
   $.ajax({
     url: "/process", 
@@ -223,6 +225,27 @@ function nextImage(){
   md.removeChild(md.firstElementChild);
   paintFullScreen(images[imageNum]);
   localStorage.setItem('seqNum',String(imageNum));
+}
+
+function loadProcessingOptions() {
+  let seqNum = 0; 
+  const divRoot = document.getElementById("processTab"); 
+  let element = "";
+  $.get("/loadprocessingoptions")
+  .done(function(string){
+      const options = JSON.parse(string);
+      $(divRoot).empty();
+      $.each(options, function(index, option) {
+        eDiv = document.createElement("div");
+        element = document.createElement("button");
+        element.setAttribute("onclick","launchProcess(event)")
+        element.setAttribute("class","processingButton");
+        element.setAttribute("id",index);
+        element.innerHTML=option.name;
+        eDiv.append(element);
+        divRoot.append(eDiv);
+      });
+  })
 }
 
 // Event listener for server side events

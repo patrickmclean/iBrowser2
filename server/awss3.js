@@ -29,7 +29,6 @@ module.exports = {
     })
   },
 
-  /* Not using this anymore */
   downloadFromS3: function(remoteFilename,localFilePath){
     aws.config.update(config.aws_remote_config);
     const s3 = new aws.S3();

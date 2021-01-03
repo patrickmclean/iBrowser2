@@ -5,6 +5,8 @@ const ps = require('./pubsub');
 const awss3 = require('./awss3');
 const logger = require('./logger');
 const config = require('../config/config.js');
+const {execFile} = require("child_process");
+const http = require('http');
 
 module.exports = {
 
@@ -76,22 +78,76 @@ module.exports = {
         ddb.delete(image);
     },
 
-    processFiles: function(files){
-        let inputFile = files.input.replace('id-','');
-        let imageItem = new image.imageClass;
-        imageItem.addDate(new Date());
-        let process = 'convert'; //imagemagick
-        let args = [
-            "-", // stdin
-            "-resize", "50%", 
-            "-blur", "0x6", 
-            "-bordercolor", "red",
-            "-border", "20", 
-            "-" // stdout
-        ];
-        awss3.processS3Files(inputFile,imageItem.imageID,process,args);
+    loadProcessingOptions: function() {
+        return config.image_processes;
     },
-    
+
+
+    // This is not currently working
+    // Need to work on the construction of the execFile argument
+    // Looks at the test2 example in neural style
+    // Also we need to wait for the files to complete downloading before starting the process
+    processFiles: function(files){
+        const inputFile = files.input.replace('id-','');
+        const refFile = files.reference.replace('id-','');
+        const processName = files.process;
+        const processOptions = config.image_processes;
+        const chosenProcess = processOptions[processName];
+        let outputImageItem = new image.imageClass;
+        outputImageItem.addDate(new Date());
+        if(chosenProcess.execType == "filestream"){
+            awss3.processS3Files(inputFile,outputImageItem.imageID,chosenProcess.executable,chosenProcess.args);
+        } 
+        if(chosenProcess.execType == "rest")
+        {
+            let localInputFile =  inputFile +".jpg";
+            let localReferenceFile = "";
+            awss3.downloadFromS3(inputFile,config.processingRoot + "/input/"+ localInputFile);
+            if(chosenProcess.needReference){
+                localReferenceFile = refFile +".jpg";
+                awss3.downloadFromS3(refFile,config.processingRoot + "/reference/" + localReferenceFile);
+            }
+            let outputImageFile = outputImageItem.imageID + ".jpg";
+            const params = 'inputFile='+localInputFile+"&referenceFile="+localReferenceFile+"&outputFile="+outputImageFile;
+            logger.write('calling api',chosenProcess.url + params,2);
+            
+            const options = {
+              host: chosenProcess.url, 
+              port: chosenProcess.port,
+              path: chosenProcess.path,
+              //crossOrigin: true,
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8',
+                'Content-Length': params.length
+              }
+            };
+            
+            // This needs to become more robust...
+            var req = http.request(options, function(res) {
+              var msg = '';
+            
+              res.setEncoding('utf8');
+              res.on('data', function(chunk) {
+                msg += chunk;
+              });
+              res.on('error', function(err){
+                logger.write('rest error',err,2);    
+              });
+              res.on('end', function() {
+                logger.write('rest came back ',JSON.parse(msg),2);
+              });
+            });
+            
+            req.write(params);
+            req.end();
+        }
+    },
+
+    // don't need this anymore but handy little function anyway...
+    getKeyByValue: function(object,value){
+        return Object.keys(object).find(key => object[key] === value);
+    },
 
     listener: ps.subscribe('resizer', function(obj){
         logger.write('Resize listener '+obj.type,obj.item.filename,2);
