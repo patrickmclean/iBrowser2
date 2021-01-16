@@ -41,7 +41,12 @@ Install aws-sdk: npm install aws-sdk
 
 
 # What's next
-Test the deepart first by creating web server around it, and removing guts so it can run locally
+DeepArt api call is partly done
+Currently the call to the process is starting before the download is complete.
+Then we need to manage an update process to track beginning and end of processing
+Considering leaving a .processing or equivalent file on the server to indicate the status
+Then put this server to run on a separate aws instance, start with a cheaper one but
+that has memory
 
 We lose the .jpg in upload. Need to fix this, will cause problems down the line
 

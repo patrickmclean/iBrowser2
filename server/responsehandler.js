@@ -87,7 +87,7 @@ module.exports = {
     // Need to work on the construction of the execFile argument
     // Looks at the test2 example in neural style
     // Also we need to wait for the files to complete downloading before starting the process
-    processFiles: function(files){
+    processFiles: async function(files){
         const inputFile = files.input.replace('id-','');
         const refFile = files.reference.replace('id-','');
         const processName = files.process;
@@ -102,10 +102,20 @@ module.exports = {
         {
             let localInputFile =  inputFile +".jpg";
             let localReferenceFile = "";
-            awss3.downloadFromS3(inputFile,config.processingRoot + "/input/"+ localInputFile);
+            try {
+                await awss3.downloadFromS3(inputFile,config.processingRoot + "/input/"+ localInputFile);
+                logger.write('download file complete',"",2);
+            } catch (err) {
+                logger.write('download input file error',err,1);
+            }
             if(chosenProcess.needReference){
                 localReferenceFile = refFile +".jpg";
-                awss3.downloadFromS3(refFile,config.processingRoot + "/reference/" + localReferenceFile);
+                try {
+                    await awss3.downloadFromS3(refFile,config.processingRoot + "/reference/" + localReferenceFile);
+                    logger.write('download file complete',"",2);
+                } catch (err) {
+                    logger.write('download ref file error',err,1);
+                }
             }
             let outputImageFile = outputImageItem.imageID + ".jpg";
             const params = 'inputFile='+localInputFile+"&referenceFile="+localReferenceFile+"&outputFile="+outputImageFile;
@@ -123,10 +133,9 @@ module.exports = {
               }
             };
             
-            // This needs to become more robust...
+            // http call - This needs to become more robust...
             var req = http.request(options, function(res) {
               var msg = '';
-            
               res.setEncoding('utf8');
               res.on('data', function(chunk) {
                 msg += chunk;

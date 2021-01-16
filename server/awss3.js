@@ -29,25 +29,33 @@ module.exports = {
     })
   },
 
+  // downloads a file from s3 and saves on local drive
   downloadFromS3: function(remoteFilename,localFilePath){
-    aws.config.update(config.aws_remote_config);
-    const s3 = new aws.S3();
-    let downloadParams = {
-        Bucket: config.s3_originals_folder, 
-        Key: remoteFilename, 
-    };
-    logger.write('s3download',downloadParams.Key +" from "+downloadParams.Bucket,2);
-    let s3stream =  s3.getObject(downloadParams).createReadStream();
-    let writeStream = fs.createWriteStream(localFilePath);
-    s3stream.pipe(writeStream);
-    s3stream.on('end', function (){
-      logger.write('writeFileDone',localFilePath,2)
-    })
-    s3stream.on('error', function (err){
-      logger.write('writeFileError',localFilePath,2)
+    return new Promise(function(resolve, reject){
+      aws.config.update(config.aws_remote_config);
+      const s3 = new aws.S3();
+      let downloadParams = {
+          Bucket: config.s3_originals_folder, 
+          Key: remoteFilename, 
+      };
+      logger.write('s3download',downloadParams.Key +" from "+downloadParams.Bucket,2);
+      let s3stream =  s3.getObject(downloadParams).createReadStream();
+      let writeStream = fs.createWriteStream(localFilePath);
+      s3stream.pipe(writeStream);
+      s3stream.on('end', function (){
+        logger.write('writeFileDone',localFilePath,2);
+        resolve();
+      })
+      s3stream.on('error', function (err){
+        logger.write('writeFileError',localFilePath,2)
+        reject('write file error');
+      })
     })
   },
 
+  // stream process path for, for instance, imagemagick 
+  // streams from s3 through a local process pipe
+  // and saves back out to s3
   processS3Files: function(inputFile, outputFile, process, args){
     aws.config.update(config.aws_remote_config);
     const s3 = new aws.S3();
@@ -75,6 +83,7 @@ module.exports = {
     
   },
 
+  // supports the above
   uploadFromStream: function(s3,params) {
     var pass = new stream.PassThrough();
     params.Body = pass;
