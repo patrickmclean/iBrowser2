@@ -82,11 +82,6 @@ module.exports = {
         return config.image_processes;
     },
 
-
-    // This is not currently working
-    // Need to work on the construction of the execFile argument
-    // Looks at the test2 example in neural style
-    // Also we need to wait for the files to complete downloading before starting the process
     processFiles: async function(files){
         const inputFile = files.input.replace('id-','');
         const refFile = files.reference.replace('id-','');
@@ -95,28 +90,34 @@ module.exports = {
         const chosenProcess = processOptions[processName];
         let outputImageItem = new image.imageClass;
         outputImageItem.addDate(new Date());
+        // example of filestreaming processing, eg imagemagick
         if(chosenProcess.execType == "filestream"){
             awss3.processS3Files(inputFile,outputImageItem.imageID,chosenProcess.executable,chosenProcess.args);
         } 
+        // example of api processing, eg deepart
         if(chosenProcess.execType == "rest")
         {
             let localInputFile =  inputFile +".jpg";
             let localReferenceFile = "";
+            /* downloading in advance is not needed any more
             try {
                 await awss3.downloadFromS3(inputFile,config.processingRoot + "/input/"+ localInputFile);
                 logger.write('download file complete',"",2);
             } catch (err) {
                 logger.write('download input file error',err,1);
             }
+            */
             if(chosenProcess.needReference){
                 localReferenceFile = refFile +".jpg";
+                /*
                 try {
                     await awss3.downloadFromS3(refFile,config.processingRoot + "/reference/" + localReferenceFile);
                     logger.write('download file complete',"",2);
                 } catch (err) {
                     logger.write('download ref file error',err,1);
-                }
+                }*/
             }
+            
             let outputImageFile = outputImageItem.imageID + ".jpg";
             const params = 'inputFile='+localInputFile+"&referenceFile="+localReferenceFile+"&outputFile="+outputImageFile;
             logger.write('calling api',chosenProcess.url + params,2);

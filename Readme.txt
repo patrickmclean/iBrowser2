@@ -42,7 +42,9 @@ Install aws-sdk: npm install aws-sdk
 
 # What's next
 DeepArt api call is partly done
-Currently the call to the process is starting before the download is complete.
+Have now implemented a Server Side call to indicate when processing is done
+Next need to read that
+
 Then we need to manage an update process to track beginning and end of processing
 Considering leaving a .processing or equivalent file on the server to indicate the status
 Then put this server to run on a separate aws instance, start with a cheaper one but
