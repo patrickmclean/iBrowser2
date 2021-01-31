@@ -41,14 +41,24 @@ Install aws-sdk: npm install aws-sdk
 
 
 # What's next
-DeepArt api call is partly done
-Have now implemented a Server Side call to indicate when processing is done
-Next need to read that
 
-Then we need to manage an update process to track beginning and end of processing
-Considering leaving a .processing or equivalent file on the server to indicate the status
-Then put this server to run on a separate aws instance, start with a cheaper one but
-that has memory
+Render has been stubbed out on deepart.
+1. Return an output file
+** Undo comments in write_file and stylize_image that skip processing
+2. Make the local file system locations by in a config
+3. Deploy to amazon - debug
+4. Find a way to notify at end of Render
+5. Fix the jpg stuff
+
+
+
+Install of DeepArt on own server is done
+Next need to call that server and verify operation
+There is no means now for knowing when processing is complete, so polling is the next step 
+Perhaps add more progress status to the progress file by finding the update calls ('At Iterate' )
+
+Then really should fix the .jpg issue end to end
+
 
 We lose the .jpg in upload. Need to fix this, will cause problems down the line
 
