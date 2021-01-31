@@ -30,6 +30,7 @@ module.exports = {
         let imageItem = new image.imageClass;
         logger.write('process upload - file.imageID',file.name+' '+imageItem.imageID,2);
         imageItem.filename = file.name;
+        imageItem.extension = file.name.split('.').pop()
         imageItem.addDate(new Date());
         imageItem.getMetadata(file.data);
         ddb.insert(imageItem);
@@ -43,7 +44,7 @@ module.exports = {
         // Upload file to s3
         let uploadParams = {
             Bucket: config.s3_originals_folder, 
-            Key: imageItem.imageID, 
+            Key: imageItem.imageID + '.' + imageItem.extension, 
             Body: file.data, 
             //ContentType: 'image/jpg',
             ACL: 'public-read'
@@ -97,7 +98,7 @@ module.exports = {
         // example of api processing, eg deepart
         if(chosenProcess.execType == "rest")
         {
-            let localInputFile =  inputFile +".jpg";
+            let localInputFile =  inputFile;
             let localReferenceFile = "";
             /* downloading in advance is not needed any more
             try {
@@ -108,7 +109,7 @@ module.exports = {
             }
             */
             if(chosenProcess.needReference){
-                localReferenceFile = refFile +".jpg";
+                localReferenceFile = refFile;
                 /*
                 try {
                     await awss3.downloadFromS3(refFile,config.processingRoot + "/reference/" + localReferenceFile);
@@ -118,7 +119,7 @@ module.exports = {
                 }*/
             }
             
-            let outputImageFile = outputImageItem.imageID + ".jpg";
+            let outputImageFile = outputImageItem.imageID;
             const params = 'inputFile='+localInputFile+"&referenceFile="+localReferenceFile+"&outputFile="+outputImageFile;
             logger.write('calling api',chosenProcess.url + params,2);
             
@@ -173,7 +174,7 @@ module.exports = {
         }
         let uploadParams = {
             Bucket: bucket, 
-            Key: keyPrefix+obj.item.imageID, 
+            Key: keyPrefix+obj.item.imageID+'.'+obj.item.extension, 
             Body: obj.content, 
             ContentType: 'image/jpg',
             ACL: 'public-read'

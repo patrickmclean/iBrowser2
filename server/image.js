@@ -28,7 +28,8 @@ imageClass: class {
         this.height;
         this.orientation;
         this.aspectRatio;
-        this.version = 4; // change this any time the object definition changes
+        this.extension;
+        this.version = 5; // change this any time the object definition changes
     }
     addFileInfo(file, folder, rootDirectory) {
         this.filename = path.basename(file);

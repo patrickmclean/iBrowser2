@@ -45,12 +45,12 @@ paintBox = function (rootDiv,imageRoot,image,seqNum) {
   // Thumbnail box
   $(boxDiv).attr({
     "class":"box",
-    "id": "id-"+image.imageID,
+    "id": "id-"+image.imageID+'.'+image.extension,
   });
   // Image Element
   imgElement = document.createElement('img');
   $(imgElement).attr({
-    "src":    imageRoot+image.imageID,
+    "src":    imageRoot+image.imageID+'.'+image.extension,
     "alt":    image.filename ,
   });
   // Full screen modal box
@@ -90,7 +90,7 @@ paintFullScreen = function(p){
   s3root = "https://ibrowser-images.s3.us-east-2.amazonaws.com/gl_" // this should be coming in the file upload object
   let imgElementFull = document.createElement('img');
   $(imgElementFull).attr({
-    "src":    s3root+p.imageID,
+    "src":    s3root+p.imageID+'.'+p.extension,
     "alt":    p.filename ,
   })
   let rootBrowser = document.getElementById("modalBrowser");
@@ -163,9 +163,11 @@ $(document).on("click", "#upload", function() {
   
   $.ajax({
     url: "/upload", 
-    dataType: 'script',
+    //dataType: 'script',
     data: form_data,
-    type: 'post',
+    type: 'POST',
+    processData: false,
+    contentType: false,
     success: function() {
       console.log('Ajax success');
     },

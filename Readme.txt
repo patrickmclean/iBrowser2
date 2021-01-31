@@ -43,7 +43,7 @@ Install aws-sdk: npm install aws-sdk
 # What's next
 
 Render has been stubbed out on deepart.
-1. Return an output file
+1. Return an output file - now working, albeit with funky names
 ** Undo comments in write_file and stylize_image that skip processing
 2. Make the local file system locations by in a config
 3. Deploy to amazon - debug
