@@ -43,29 +43,20 @@ Install aws-sdk: npm install aws-sdk
 # What's next
 
 Render has been stubbed out on deepart.
-1. Return an output file - now working, albeit with funky names
-** Undo comments in write_file and stylize_image that skip processing
-2. Make the local file system locations by in a config
-3. Deploy to amazon - debug
 4. Find a way to notify at end of Render
-5. Fix the jpg stuff
+5. Deploy ibrowser2 to amazon
+6. Done!!
 
 
 
-Install of DeepArt on own server is done
-Next need to call that server and verify operation
-There is no means now for knowing when processing is complete, so polling is the next step 
-Perhaps add more progress status to the progress file by finding the update calls ('At Iterate' )
-
-Then really should fix the .jpg issue end to end
-
-
-We lose the .jpg in upload. Need to fix this, will cause problems down the line
-
-Add tagging, so the uploads to different tabs have different tags (could be directory but probably not)
 
 refresh happens for every image in multi upload. do it for just one??
 Add error handling
 Allow for launching a process on one or more files (art, remove people)
 
 
+Output design
+* On notification of output image created - this can be a reverse call to ibrowser
+* Create a database entry
+* Create a thumbnail
+* Send a refresh to the front end

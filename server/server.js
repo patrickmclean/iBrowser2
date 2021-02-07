@@ -61,6 +61,7 @@ app.post('/deleteimage', function(req,res){
    // add error conditions
 })
 
+// return the set of image processing options available
 app.get('/loadprocessingoptions', function(req,res){
    logger.write('loadprocoptions','',2);
    const options = rh.loadProcessingOptions();
@@ -69,6 +70,14 @@ app.get('/loadprocessingoptions', function(req,res){
    //add error conditions
 })
 
+// Stub for processing output complete (deepart case)
+app.post('/outputcomplete', function(req,res){
+   logger.write('output complete',req.body.filename,2)
+   // make a db entry
+   // make a thumbnail
+   // notify the front end
+   res.sendStatus(200)
+})
 
 // Prep server side event stream for sending async refresh updates
 app.get('/serverstream', (req, res) => {
